@@ -20,9 +20,9 @@ class Knn extends CI_Controller {
             'title' => 'Home | KNN',
 			'train' => count($train)
         ];
-        $this->load->view('knn/_header', $data);
-        $this->load->view('knn/page/home');
-        $this->load->view('knn/_footer');
+        $this->load->view('fifo/_header', $data);
+        $this->load->view('fifo/page/home');
+        $this->load->view('fifo/_footer');
     }
 
     public function training(){
@@ -31,15 +31,15 @@ class Knn extends CI_Controller {
             'title' => 'Data Training | KNN',
             'train' => $train
         ];
-        $this->load->view('knn/_header', $data);
-        $this->load->view('knn/page/train');
-        $this->load->view('knn/_footer');
+        $this->load->view('fifo/_header', $data);
+        $this->load->view('fifo/page/train');
+        $this->load->view('fifo/_footer');
     }
 
     public function train_store(){
 		$input = $this->input->post(null, true);
 		$this->Mhome->train_insert($input);
-		redirect('knn/training');
+		redirect('fifo/training');
 	}
 
 	public function train_update(){
@@ -53,26 +53,26 @@ class Knn extends CI_Controller {
 			'result' => $this->input->post('result'),
 		];
 		$this->Mhome->train_update($data, $id);
-		redirect('knn/training');
+		redirect('fifo/training');
 	}
 
 	public function del_train($id){
 		$this->Mhome->deltrain($id);
-		redirect('knn/training');
+		redirect('fifo/training');
 	}
 
 	public function del_result($id){
 		$this->Mhome->delresult($id);
-		redirect('knn/result');
+		redirect('fifo/result');
 	}
 
 	public function uji(){
         $data = [
             'title' => 'Data Uji | KNN'
         ];
-		$this->load->view('knn/_header', $data);
-		$this->load->view('knn/page/uji');
-		$this->load->view('knn/_footer');
+		$this->load->view('fifo/_header', $data);
+		$this->load->view('fifo/page/uji');
+		$this->load->view('fifo/_footer');
 	}
 
 	public function uji_action(){
@@ -130,8 +130,8 @@ class Knn extends CI_Controller {
 			'input' => $this->input->post(null, true)
         ];
 
-		$this->load->view('knn/_header', $data);
-		$this->load->view('knn/page/hasil');
-		$this->load->view('knn/_footer');
+		$this->load->view('fifo/_header', $data);
+		$this->load->view('fifo/page/hasil');
+		$this->load->view('fifo/_footer');
 	}
 }

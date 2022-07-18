@@ -20,7 +20,7 @@
 	<!-- Layout styles -->
 	<link rel="stylesheet" href="<?=base_url()?>assets/css/demo_1/style.css" />
 	<!-- End layout styles -->
-	<link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" />
+	<!-- <link rel="shortcut icon" href="<?=base_url()?>assets/images/favicon.png" /> -->
 	<!-- Datatable -->
 	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" />
 	<!-- Button -->
@@ -34,12 +34,12 @@
 			<ul class="nav">
 				<li class="nav-item nav-profile border-bottom">
 					<a href="#" class="nav-link flex-column">
-						<div class="nav-profile-image">
-							<img src="<?=base_url()?>assets/images/dinus.jpg" alt="profile" />
+						<div class="">
+							<img src="<?=base_url()?>assets/images/logo/logo.png" height="50px" alt="profile" />
 							<!--change to offline or busy as needed-->
 						</div>
 						<div class="nav-profile-text d-flex ml-0 mb-3 flex-column">
-							<span class="font-weight-semibold mb-1 mt-2 text-center">UDINUS</span>
+							<!-- <span class="font-weight-semibold mb-1 mt-2 text-center">Alfamart</span> -->
 						</div>
 					</a>
 				</li>
@@ -47,21 +47,50 @@
 					<span class="nav-item-head">Menu</span>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('knn/index')?>">
+					<a class="nav-link" href="<?=base_url('home')?>">
 						<i class="mdi mdi-compass-outline menu-icon"></i>
 						<span class="menu-title">Dashboard</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('knn/training')?>">
+					<a class="nav-link" href="<?=base_url('produk')?>">
 						<i class="mdi mdi-database menu-icon"></i>
-						<span class="menu-title">Data Training</span>
+						<span class="menu-title">Produk</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="<?=base_url('knn/uji')?>">
+					<a class="nav-link" href="<?=base_url('suplier')?>">
+						<i class="mdi mdi-database menu-icon"></i>
+						<span class="menu-title">Suplier</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+					<i class="mdi mdi-crosshairs-gps menu-icon"></i>
+					<span class="menu-title">Transaksi</span>
+					<i class="menu-arrow"></i>
+					</a>
+					<div class="collapse" id="ui-basic">
+					<ul class="nav flex-column sub-menu">
+						<li class="nav-item">
+						<a class="nav-link" href="<?=base_url('pembelian')?>">Pembelian</a>
+						</li>
+						<li class="nav-item">
+						<a class="nav-link" href="#">Penjualan</a>
+						</li>
+					</ul>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
 						<i class="mdi mdi-format-list-bulleted menu-icon"></i>
-						<span class="menu-title">Data Uji</span>
+						<span class="menu-title">Laporan</span>
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="<?=base_url('user')?>">
+						<i class="mdi mdi-format-list-bulleted menu-icon"></i>
+						<span class="menu-title">User</span>
 					</a>
 				</li>
 			</ul>

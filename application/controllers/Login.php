@@ -21,7 +21,7 @@ class Login extends CI_Controller {
         $data = $query->row();
         if($cek>0){
             $this->session->set_userdata(array('user'=>$user));
-            redirect('knn/index');
+            redirect('home');
         }
         else{
             redirect('login');
