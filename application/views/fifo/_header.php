@@ -73,10 +73,10 @@
 					<div class="collapse" id="ui-basic">
 					<ul class="nav flex-column sub-menu">
 						<li class="nav-item">
-						<a class="nav-link" href="<?=base_url('pembelian')?>">Pembelian</a>
+						<a class="nav-link" href="<?=base_url('pembelian')?>">Barang Masuk</a>
 						</li>
 						<li class="nav-item">
-						<a class="nav-link" href="#">Penjualan</a>
+						<a class="nav-link" href="<?=base_url('keluar')?>">Barang Keluar</a>
 						</li>
 					</ul>
 					</div>

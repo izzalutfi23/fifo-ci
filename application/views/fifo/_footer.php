@@ -40,10 +40,10 @@
 <script>
 	$(document).ready(function () {
 		$('#example').DataTable({
-			dom: 'Bfrtip',
-			buttons: [
-				'print', 'pdf', 'csv', 'excel'
-			]
+			// dom: 'Bfrtip',
+			// buttons: [
+			// 	'print', 'pdf', 'csv', 'excel'
+			// ]
 		});
 	});
 
