@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 18, 2022 at 01:20 AM
+-- Generation Time: Jul 22, 2022 at 01:16 AM
 -- Server version: 5.7.31
 -- PHP Version: 7.4.9
 
@@ -51,6 +51,52 @@ INSERT INTO `barang` (`id`, `kode_barang`, `barcode`, `nama`, `c2`, `stok`, `umu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `keranjang`
+--
+
+DROP TABLE IF EXISTS `keranjang`;
+CREATE TABLE IF NOT EXISTS `keranjang` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `barang_id` int(5) NOT NULL,
+  `jumlah` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `keranjang`
+--
+
+INSERT INTO `keranjang` (`id`, `barang_id`, `jumlah`) VALUES
+(1, 1, 5),
+(2, 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penjualan`
+--
+
+DROP TABLE IF EXISTS `penjualan`;
+CREATE TABLE IF NOT EXISTS `penjualan` (
+  `id` int(5) NOT NULL AUTO_INCREMENT,
+  `faktur` varchar(50) NOT NULL,
+  `pelanggan` varchar(100) NOT NULL,
+  `tgl` date NOT NULL,
+  `total` int(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `penjualan`
+--
+
+INSERT INTO `penjualan` (`id`, `faktur`, `pelanggan`, `tgl`, `total`) VALUES
+(2, 'IN-00001', 'Pelanggan A', '2022-07-22', 140000),
+(3, 'IN-00002', 'Pelanggan B', '2022-07-22', 140000);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `result`
 --
 
@@ -67,9 +113,9 @@ CREATE TABLE IF NOT EXISTS `result` (
 --
 
 INSERT INTO `result` (`id`, `amount`, `result`) VALUES
-(1, 11, 'VICTORY'),
-(2, 10.6301, 'VICTORY'),
-(3, 13.5277, 'DEFEAT');
+(1, 41.2553, 'VICTORY'),
+(2, 41.2553, 'VICTORY'),
+(3, 32.0624, 'DEFEAT');
 
 -- --------------------------------------------------------
 
@@ -133,6 +179,7 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
   `id` int(5) NOT NULL AUTO_INCREMENT,
   `barang_id` int(5) NOT NULL,
   `suplier_id` int(5) DEFAULT NULL,
+  `penjualan_id` int(5) DEFAULT NULL,
   `tgl` date NOT NULL,
   `status` enum('0','1') NOT NULL,
   `pembelian` text,
@@ -146,9 +193,9 @@ CREATE TABLE IF NOT EXISTS `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`id`, `barang_id`, `suplier_id`, `tgl`, `status`, `pembelian`, `hpp`, `saldo`, `type`) VALUES
-(1, 1, 1, '2022-07-17', '1', '{\"jumlah\":\"10\",\"satuan\":\"Pcs\",\"harga\":\"10000\"}', NULL, NULL, 'pembelian'),
-(2, 1, 1, '2022-07-17', '0', '{\"jumlah\":\"3\",\"satuan\":\"Dus\",\"harga\":\"130000\"}', NULL, NULL, 'pembelian');
+INSERT INTO `transaksi` (`id`, `barang_id`, `suplier_id`, `penjualan_id`, `tgl`, `status`, `pembelian`, `hpp`, `saldo`, `type`) VALUES
+(1, 1, 1, NULL, '2022-07-17', '1', '{\"jumlah\":\"10\",\"satuan\":\"Pcs\",\"harga\":\"10000\"}', NULL, NULL, 'pembelian'),
+(2, 1, 1, NULL, '2022-07-17', '0', '{\"jumlah\":\"3\",\"satuan\":\"Dus\",\"harga\":\"130000\"}', NULL, NULL, 'pembelian');
 
 -- --------------------------------------------------------
 
