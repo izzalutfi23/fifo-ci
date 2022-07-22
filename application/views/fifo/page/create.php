@@ -7,21 +7,28 @@
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
-                <div class="card-body">
+                	<div class="card-body">
 						<h4 class="card-title">Form Tambah Keranjang</h4>
 						<p class="card-description">Silahkan isi sesuai petunjuk</p>
-						<form action="<?=base_url('knn/uji_action')?>" method="post">
+						<form action="<?=base_url('keluar/storeCart')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label class="pt-3">No Faktur</label>
-									<input type="number" name="kill" class="form-control" placeholder="Masukkan jumlah kill">
+									<input type="text" name="faktur" readonly value="<?=$faktur?>" class="form-control" placeholder="Masukkan jumlah kill">
 									<label class="pt-3">Nama Barang</label>
-									<input type="number" name="assist" class="form-control" placeholder="Masukkan jumlah Assist">
+									<select name="barang_id" class="form-control" required="required">
+										<option value="">Pilih Barang</option>
+										<?php 
+											foreach($produk as $barang){
+										?>
+											<option value="<?=$barang->id?>"><?=$barang->nama?></option>
+										<?php } ?>
+									</select>
 								</div>
 								<div class="form-group col-md-6">
                                     <label class="pt-3">Jumlah</label>
-									<input type="number" name="kill" class="form-control" placeholder="Masukkan jumlah kill">
-									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Tambahkan">
+									<input type="number" name="jumlah" class="form-control" placeholder="Masukkan jumlah">
+									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Tambahkan Keranjang">
 								</div>
 							</div>
 						</form>
@@ -30,38 +37,62 @@
 						<h4 class="card-title">Keranjang</h4>
 						</p>
 						<div class="table-responsive">
-							<table class="table table-striped table-bordered" style="width:100%">
+							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>
 										<th>No</th>
-										<th>Faktur</th>
-										<th>Pelanggan</th>
-										<th>Tgl</th>
-										<th>Total</th>
+										<th>Nama Barang</th>
+										<th>Harga Satuan</th>
+										<th>Jumlah</th>
+										<th>Subtotal</th>
 										<th width="12%">Action</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
-                                        $no=1; 
-                                        foreach($suplier as $data){
+                                        $no=1;
+										$total = 0;
+                                        foreach($cart as $data){
+										$total += $data->jumlah * $data->harga;
                                     ?>
 									<tr>
 										<td><?=$no++?></td>
-										<td><?=$data->kode?></td>
 										<td><?=$data->nama?></td>
-										<td><?=$data->alamat?></td>
-										<td><?=$data->email?></td>
+										<td>Rp <?=number_format($data->harga)?></td>
+										<td><?=$data->jumlah?></td>
+										<td>Rp <?=number_format($data->jumlah * $data->harga)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"
 												href="<?=base_url('suplier/delete/'.$data->id)?>">
-												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
+												<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 											</a>
 										</td>
 									</tr>
 									<?php } ?>
+									<tr>
+										<td colspan="4">Total</td>
+										<td colspan="2">Rp <?=number_format($total)?></td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
+					</div>
+					<div class="card-body">
+						<form action="<?=base_url('keluar/store')?>" method="post">
+							<div class="row">
+								<div class="form-group col-md-6">
+									<label class="pt-3">Nama Pelanggan</label>
+									<input type="hidden" name="total" value="<?=$total?>">
+									<input type="hidden" name="faktur" value="<?=$faktur?>">
+									<input type="text" required="required" name="pelanggan" class="form-control" placeholder="Masukkan pelanggan">
+								</div>
+								<div class="form-group col-md-6">
+                                    <label class="pt-3">Tanggal</label>
+									<input type="date" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
+									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Simpan Barang Keluar">
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>

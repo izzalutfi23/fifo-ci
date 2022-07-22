@@ -82,7 +82,7 @@
 					</div>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">
+					<a class="nav-link" href="<?= base_url('laporan') ?>">
 						<i class="mdi mdi-format-list-bulleted menu-icon"></i>
 						<span class="menu-title">Laporan</span>
 					</a>

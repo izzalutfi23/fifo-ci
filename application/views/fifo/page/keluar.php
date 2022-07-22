@@ -30,14 +30,14 @@
 								<tbody>
 									<?php
                                         $no=1; 
-                                        foreach($suplier as $data){
+                                        foreach($penjualan as $data){
                                     ?>
 									<tr>
 										<td><?=$no++?></td>
-										<td><?=$data->kode?></td>
-										<td><?=$data->nama?></td>
-										<td><?=$data->alamat?></td>
-										<td><?=$data->email?></td>
+										<td><?=$data->faktur?></td>
+										<td><?=$data->pelanggan?></td>
+										<td><?=date('d M Y', strtotime($data->tgl))?></td>
+										<td>Rp <?=number_format($data->total)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"
 												href="<?=base_url('suplier/delete/'.$data->id)?>">

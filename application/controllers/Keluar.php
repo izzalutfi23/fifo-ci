@@ -7,6 +7,7 @@ class Keluar extends CI_Controller {
 		parent::__construct();
         $this->load->model('Mproduk');
         $this->load->model('Msuplier');
+        $this->load->model('Mkeluar');
 		if($this->session->userdata('user')){
             
         }
@@ -16,10 +17,10 @@ class Keluar extends CI_Controller {
 	}
 
     public function index(){
-		$suplier = $this->Msuplier->getSuplier()->result();
+		$penjualan = $this->Mkeluar->getPenjualan()->result();
         $data = [
             'title' => 'Barang Keluar | Fifo',
-			'suplier' => $suplier
+			'penjualan' => $penjualan
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/keluar');
@@ -27,33 +28,50 @@ class Keluar extends CI_Controller {
     }
 
     public function create(){
-		$suplier = $this->Msuplier->getSuplier()->result();
+        $this->db->select('RIGHT(faktur,5) as kode', FALSE);
+        $this->db->order_by('kode','DESC');    
+        $this->db->limit(1);
+        $query = $this->db->get('penjualan');
+            if($query->num_rows() <> 0){      
+                 $data = $query->row();
+                 $kode = intval($data->kode) + 1; 
+            }
+            else{      
+                 $kode = 1;  
+            }
+        $batas = str_pad($kode, 5, "0", STR_PAD_LEFT);    
+        $faktur = "IN-".$batas;
+		$cart = $this->Mkeluar->getCart()->result();
+        $produk = $this->Mproduk->getProduk()->result();
         $data = [
             'title' => 'Tambah Barang Keluar | Fifo',
-			'suplier' => $suplier
+			'cart' => $cart,
+            'faktur' => $faktur,
+            'produk' => $produk
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/create');
         $this->load->view('fifo/_footer');
     }
 
-    public function store(){
-        $input = $this->input->post(null, true);
-		$this->Msuplier->store($input);
-		redirect('suplier');
+    public function storeCart(){
+        $data = [
+            'barang_id' => $this->input->post('barang_id'),
+            'jumlah' => $this->input->post('jumlah')
+        ];
+        $this->Mkeluar->storeCart($data);
+		redirect('keluar/create');
     }
 
-    public function update(){
-        $id = $this->input->post('id');
-		$data = [
-			'kode' => $this->input->post('kode'),
-			'nama' => $this->input->post('nama'),
-			'alamat' => $this->input->post('alamat'),
-			'email' => $this->input->post('email'),
-			'hp' => $this->input->post('hp')
-		];
-		$this->Msuplier->update($data, $id);
-		redirect('suplier');
+    public function store(){
+        $keluar = [
+            'faktur' => $this->input->post('faktur'),
+            'pelanggan' => $this->input->post('pelanggan'),
+            'tgl' => $this->input->post('tanggal'),
+            'total' => $this->input->post('total')
+        ];
+		$this->Mkeluar->storePenjualan($keluar);
+		redirect('keluar');
     }
 
     public function delete($id){
