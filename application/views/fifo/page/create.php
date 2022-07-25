@@ -69,11 +69,13 @@
 										</td>
 									</tr>
 									<?php } ?>
+								</tbody>
+								<tfoot>
 									<tr>
 										<td colspan="4">Total</td>
 										<td colspan="2">Rp <?=number_format($total)?></td>
 									</tr>
-								</tbody>
+								</tfoot>
 							</table>
 						</div>
 					</div>
@@ -81,14 +83,12 @@
 						<form action="<?=base_url('keluar/store')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">
-									<label class="pt-3">Nama Pelanggan</label>
+									<label class="pt-3">Tanggal</label>
 									<input type="hidden" name="total" value="<?=$total?>">
 									<input type="hidden" name="faktur" value="<?=$faktur?>">
-									<input type="text" required="required" name="pelanggan" class="form-control" placeholder="Masukkan pelanggan">
+									<input type="date" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
 								</div>
 								<div class="form-group col-md-6">
-                                    <label class="pt-3">Tanggal</label>
-									<input type="date" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
 									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Simpan Barang Keluar">
 								</div>
 							</div>

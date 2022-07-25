@@ -7,6 +7,7 @@ class Produk extends CI_Controller {
 		parent::__construct();
 		$this->load->model('Mhome');
         $this->load->model('Mproduk');
+        $this->load->model('Mpembelian');
 		if($this->session->userdata('user')){
             
         }
@@ -26,9 +27,40 @@ class Produk extends CI_Controller {
         $this->load->view('fifo/_footer');
     }
 
-    public function store(){
-        $input = $this->input->post(null, true);
-		$this->Mproduk->store($input);
+    public function store(){        
+        $input = [
+            'kode_barang' => $this->input->post('kode_barang'),
+            'barcode' => $this->input->post('barcode'),
+            'nama' => $this->input->post('nama'),
+            'c2' => $this->input->post('c2'),
+            'stok' => $this->input->post('stok'),
+            'umur' => $this->input->post('umur'),
+            'retur' => $this->input->post('retur'),
+            'harga' => $this->input->post('harga'),
+            'trx_id' => 0,
+            'qty' => $this->input->post('stok')
+        ];
+        $this->Mproduk->store($input);
+        $last_id = $this->db->insert_id();
+        $arr = [
+            'jumlah' => $this->input->post('stok'),
+            'harga' => $this->input->post('harga')
+        ];
+        $input = [
+            'barang_id' => $last_id,
+            'faktur' => 'Awal-001',
+            'tgl' => date('Y-m-d'),
+            'status' => '0',
+            'saldo' => json_encode($arr),
+            'type' => 'awal'
+        ];
+        $this->Mpembelian->store($input);
+        $id = $this->db->insert_id();
+        // Update produk
+        $data = [
+			'trx_id' => $id 
+		];
+		$this->Mproduk->update($data, $last_id);
 		redirect('produk');
     }
 

@@ -8,7 +8,7 @@
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title">Buku Stok</h4>
+						<h4 class="card-title">Buku Stok <?=$barang->nama?></h4>
 						</p>
 						<div class="table-responsive">
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
@@ -33,19 +33,47 @@
                                     </tr>
 								</thead>
 								<tbody>
+									<?php
+										$stokPlus = 0;
+										$stokMin = 0;
+										$sisaPlus = 0;
+										$sisaMin = 0;
+										$tkeluar = 0;
+										foreach($laporan as $data){
+										$stokPlus += $data->type == 'pembelian' ? $data->pembelian->jumlah : 0;
+										$stokPlus += $data->type == 'awal' ? $data->saldo->jumlah : 0;
+										$stokMin += $data->type == 'penjualan' ? $data->hpp->jumlah : 0;
+
+										$sisaPlus += $data->type == 'pembelian' ? $data->saldo->jumlah * $data->saldo->harga : 0;
+										$sisaPlus += $data->type == 'awal' ? $data->saldo->jumlah * $data->saldo->harga : 0;
+										$sisaMin += $data->type == 'penjualan' ? $data->saldo->jumlah * $data->saldo->harga : 0;
+
+										$tkeluar += $data->type == 'penjualan' ? $data->hpp->harga * $data->hpp->jumlah : 0;
+									?>
 									<tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td><?=date('d M Y', strtotime($data->tgl))?></td>
+                                        <td><?=$data->faktur?></td>
+                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->jumlah) : 0?></td>
+                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga) : 0?></td>
+                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga * $data->pembelian->jumlah) : 0?></td>
+                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah) : 0?></td>
+                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga) : 0?></td>
+                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * $data->hpp->jumlah) : 0?></td>
+                                        <td><?=number_format($data->saldo->jumlah)?></td>
+                                        <td><?=number_format($data->saldo->harga)?></td>
+                                        <td><?=number_format($data->saldo->jumlah * $data->saldo->harga)?></td>
                                     </tr>
+									<?php } ?>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="7">Total</td>
+										<td><?=number_format($tkeluar)?></td>
+										<td><?=number_format($stokPlus-$stokMin)?></td>
+										<td></td>
+										<td><?=number_format($sisaPlus-$sisaMin)?></td>
+									</tr>
+								</tfoot>
 							</table>
 						</div>
 					</div>

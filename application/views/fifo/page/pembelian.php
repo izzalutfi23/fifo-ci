@@ -2,18 +2,18 @@
 <div class="main-panel">
 	<div class="content-wrapper">
 		<div class="page-header">
-			<h3 class="page-title">Data Pembelian</h3>
+			<h3 class="page-title">Data Barang Masuk</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
-					<i class="mdi mdi-plus-circle"></i>Pembelian</button>
+					<i class="mdi mdi-plus-circle"></i>Barang Masuk</button>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
 					<div class="card-body">
-						<h4 class="card-title">Data Pembelian</h4>
+						<h4 class="card-title">Data Barang Masuk</h4>
 						</p>
 						<div class="table-responsive">
 							<!-- Modal -->
@@ -22,7 +22,7 @@
 								<div class="modal-dialog modal-fade">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLongTitle">Tambah Pembelian</h5>
+											<h5 class="modal-title" id="exampleModalLongTitle">Tambah Barang Masuk</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
@@ -53,8 +53,6 @@
 														<input required="required" type="date" name="tgl" value="<?=date('Y-m-d')?>" class="form-control">
 														<label class="pt-3">Jumlah (Qty)</label>
 														<input required="required" type="number" name="jumlah" class="form-control" placeholder="Masukkan email">
-                                                        <label class="pt-3">Satuan</label>
-														<input required="required" type="text" name="satuan" class="form-control" placeholder="Masukkan Satuan (Gram, Kg, Ton, dll)">
                                                         <label class="pt-3">Harga Per Unit (Satuan)</label>
 														<input required="required" type="harga" name="harga" class="form-control" placeholder="Masukkan harga">
 													</div>
@@ -76,7 +74,6 @@
 										<th>Suplier</th>
                                         <th>Tanggal</th>
 										<th>Jumlah</th>
-                                        <th>Satuan</th>
 										<th>Harga Satuan</th>
                                         <th>Total</th>
 										<th width="12%">Action</th>
@@ -92,7 +89,6 @@
 										<td><?=$data->barang?></td>
 										<td><?=$data->suplier?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
-                                        <td><?=$data->pembelian->satuan?></td>
 										<td><?=$data->pembelian->jumlah?></td>
 										<td><?=number_format($data->pembelian->harga)?></td>
                                         <td><?=number_format($data->pembelian->harga*$data->pembelian->jumlah)?></td>

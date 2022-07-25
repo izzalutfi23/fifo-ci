@@ -35,34 +35,32 @@ class Pembelian extends CI_Controller {
     }
 
     public function store(){
+        $produk = $this->Mproduk->getById($this->input->post('barang_id'))->row();
+        $newStok = $produk->stok + $this->input->post('jumlah');
+        $dataProduk = [
+            'stok' => $newStok
+        ];
+        $this->Mproduk->update($dataProduk, $this->input->post('barang_id'));
         $arr = [
             'jumlah' => $this->input->post('jumlah'),
-            'satuan' => $this->input->post('satuan'),
+            'harga' => $this->input->post('harga')
+        ];
+        $saldo = [
+            'jumlah' => $this->input->post('jumlah'),
             'harga' => $this->input->post('harga')
         ];
         $input = [
             'barang_id' => $this->input->post('barang_id'),
             'suplier_id' => $this->input->post('suplier_id'),
+            'faktur' => 'IN-001',
             'tgl' => $this->input->post('tgl'),
             'status' => '0',
             'pembelian' => json_encode($arr),
+            'saldo' => json_encode($saldo),
             'type' => 'pembelian'
         ];
 		$this->Mpembelian->store($input);
 		redirect('pembelian');
-    }
-
-    public function update(){
-        $id = $this->input->post('id');
-		$data = [
-			'kode' => $this->input->post('kode'),
-			'nama' => $this->input->post('nama'),
-			'alamat' => $this->input->post('alamat'),
-			'email' => $this->input->post('email'),
-			'hp' => $this->input->post('hp')
-		];
-		$this->Msuplier->update($data, $id);
-		redirect('suplier');
     }
 
     public function delete($id){

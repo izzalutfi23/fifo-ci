@@ -26,8 +26,12 @@ class User extends CI_Controller {
     }
 
     public function store(){
-        $input = $this->input->post(null, true);
-		$this->Muser->store($input);
+        $data = [
+            'nama' => $this->input->post('nama'),
+            'username' => $this->input->post('username'),
+            'password' => md5($this->input->post('password')),
+        ];
+		$this->Muser->store($data);
 		redirect('user');
     }
 

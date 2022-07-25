@@ -7,6 +7,11 @@ class Mproduk extends CI_Model {
         return $this->db->get('barang');
     }
 
+    public function getById($id){
+        $this->db->where('id', $id);
+        return $this->db->get('barang');
+    }
+
     public function store($data){
         $this->db->insert('barang', $data);
     }

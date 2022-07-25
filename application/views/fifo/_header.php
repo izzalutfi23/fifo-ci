@@ -54,19 +54,19 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('produk')?>">
-						<i class="mdi mdi-database menu-icon"></i>
+						<i class=" mdi mdi-barcode-scan menu-icon"></i>
 						<span class="menu-title">Produk</span>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('suplier')?>">
-						<i class="mdi mdi-database menu-icon"></i>
+						<i class=" mdi mdi-account-multiple menu-icon"></i>
 						<span class="menu-title">Suplier</span>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-					<i class="mdi mdi-crosshairs-gps menu-icon"></i>
+					<i class=" mdi mdi-swap-horizontal menu-icon"></i>
 					<span class="menu-title">Transaksi</span>
 					<i class="menu-arrow"></i>
 					</a>
@@ -83,13 +83,13 @@
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('laporan') ?>">
-						<i class="mdi mdi-format-list-bulleted menu-icon"></i>
+						<i class=" mdi mdi-book-open-variant menu-icon"></i>
 						<span class="menu-title">Laporan</span>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('user')?>">
-						<i class="mdi mdi-format-list-bulleted menu-icon"></i>
+						<i class=" mdi mdi-account-settings menu-icon"></i>
 						<span class="menu-title">User</span>
 					</a>
 				</li>
