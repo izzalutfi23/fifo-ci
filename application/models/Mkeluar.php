@@ -24,8 +24,7 @@ class Mkeluar extends CI_Model {
 
     public function getTrx($id){
         $this->db->where('barang_id', $id);
-        $this->db->or_where('type', 'awal');
-        $this->db->or_where('type', 'pembelian');
+        $this->db->where_in('type', ['awal', 'pembelian']);
         $this->db->where('terpakai', '0');
         return $this->db->get('transaksi');
     }

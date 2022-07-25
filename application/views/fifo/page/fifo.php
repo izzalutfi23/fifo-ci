@@ -59,19 +59,19 @@
                                         <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah) : 0?></td>
                                         <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga) : 0?></td>
                                         <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * $data->hpp->jumlah) : 0?></td>
-                                        <td><?=number_format($data->saldo->jumlah)?></td>
-                                        <td><?=number_format($data->saldo->harga)?></td>
-                                        <td><?=number_format($data->saldo->jumlah * $data->saldo->harga)?></td>
+                                        <td align="right"><?=number_format($data->saldo->jumlah)?></td>
+                                        <td align="right"><?=number_format($data->saldo->harga)?></td>
+                                        <td align="right"><?=number_format($data->saldo->jumlah * $data->saldo->harga)?></td>
                                     </tr>
 									<?php } ?>
 								</tbody>
 								<tfoot>
 									<tr>
 										<td colspan="7">Total</td>
-										<td><?=number_format($tkeluar)?></td>
-										<td><?=number_format($stokPlus-$stokMin)?></td>
-										<td></td>
-										<td><?=number_format($sisaPlus-$sisaMin)?></td>
+										<td align="right"><?=number_format($tkeluar)?></td>
+										<td align="right"><?=number_format($stokPlus-$stokMin)?></td>
+										<td align="right"></td>
+										<td align="right"><?=number_format($sisaPlus-$sisaMin)?></td>
 									</tr>
 								</tfoot>
 							</table>

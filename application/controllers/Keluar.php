@@ -164,6 +164,41 @@ class Keluar extends CI_Controller {
 
                 $this->Mpembelian->store($input2);
             }
+            elseif($produk->qty == $cart->jumlah){
+                // Create Trx
+                $arr = [
+                    'jumlah' => $produk->qty,
+                    'harga' => $produk->harga
+                ];
+                $saldo = [
+                    'jumlah' => $produk->qty,
+                    'harga' => $produk->harga
+                ];
+                $input = [
+                    'barang_id' => $cart->barang_id,
+                    'penjualan_id' => $last_id,
+                    'faktur' => $this->input->post('faktur'),
+                    'tgl' => $this->input->post('tanggal'),
+                    'status' => '0',
+                    'hpp' => json_encode($arr),
+                    'saldo' => json_encode($saldo),
+                    'type' => 'penjualan'
+                ];
+                $this->Mpembelian->store($input);
+
+                // Update Produk
+                $sisa = $cart->jumlah - $produk->qty;
+                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
+                $temp = json_decode($trx[1]->pembelian);
+                $data = [
+                    'stok' => $produk->stok - $produk->qty,
+                    'trx_id' => $trx[1]->id,
+                    'qty' => $temp->jumlah - $sisa,
+                    'harga' => $temp->harga
+                ];
+                $this->Mproduk->update($data, $cart->barang_id);
+                $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
+            }
             else{
                 $arr = [
                     'jumlah' => $cart->jumlah,
