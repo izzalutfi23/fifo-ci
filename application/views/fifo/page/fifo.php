@@ -3,6 +3,11 @@
 	<div class="content-wrapper">
 		<div class="page-header">
 			<h3 class="page-title">Laporan Stok Barang</h3>
+			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+				<a href="<?=base_url('laporan/pdf/'.$barang->id)?>" target="_blank">
+				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</button></a>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
