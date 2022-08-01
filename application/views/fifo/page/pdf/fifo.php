@@ -42,7 +42,7 @@
                     Kawasan Industri Tugu Wijaya Kusuma, Jl. Tugu Industri I No.1, Randu Garut, Kec. Tugu, Kota Semarang, Jawa Tengah 50152</span>
                 </td>
                 <td style="width: 20%;text-align: center;font-size: 11px;vertical-align: text-top;">
-                    <b>AM-ALFAMART-BM-05-02f/R0</b></td>
+                    <b>AM-05-02f/R0</b></td>
             </tr>
         </table>
     </div>
@@ -52,7 +52,7 @@
     <div style="text-align: center;">
         <span style="font-size: 13px; text-transform: uppercase;">
             <b>LAPORAN STOK BARANG MASUK DAN KELUAR</b><br>
-            <b>GUDANG PENYIMPANAN</b>
+            <b>JENIS BARANG: <?=$barang->nama?></b>
         </span>
     </div>
     <br>
