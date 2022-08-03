@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mpembelian extends CI_Model {
 	
     public function getPembelian(){
-        $this->db->select('t.id, b.nama as barang, s.nama as suplier, t.tgl, t.pembelian, t.status, t.type');
+        $this->db->select('t.id, b.nama as barang, s.nama as suplier, t.tgl, t.pembelian, t.status, t.faktur, t.type');
         $this->db->where('type', 'pembelian');
         $this->db->join('barang as b', 'b.id=t.barang_id', 'left');
         $this->db->join('suplier as s', 's.id=t.suplier_id', 'left');

@@ -82,6 +82,12 @@
 					</div>
 				</li>
 				<li class="nav-item">
+					<a class="nav-link" href="<?=base_url('penyimpanan')?>">
+						<i class="mdi mdi-database-plus menu-icon"></i>
+						<span class="menu-title">Penyimpanan</span>
+					</a>
+				</li>
+				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('laporan') ?>">
 						<i class=" mdi mdi-book-open-variant menu-icon"></i>
 						<span class="menu-title">Laporan</span>

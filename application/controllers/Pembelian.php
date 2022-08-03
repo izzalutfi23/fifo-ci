@@ -17,19 +17,20 @@ class Pembelian extends CI_Controller {
 	}
 
     public function index(){
-        // $this->db->select('RIGHT(faktur,5) as kode', FALSE);
-        // $this->db->order_by('kode','DESC');    
-        // $this->db->limit(1);
-        // $query = $this->db->get('penjualan');
-        //     if($query->num_rows() <> 0){      
-        //         $data = $query->row();
-        //         $kode = intval($data->kode) + 1; 
-        //     }
-        //     else{      
-        //         $kode = 1;  
-        //     }
-        // $batas = str_pad($kode, 5, "0", STR_PAD_LEFT);    
-        // $faktur = "OUT-".$batas;
+        $this->db->select('RIGHT(faktur,5) as kode', FALSE);
+        $this->db->where('type', 'pembelian');
+        $this->db->order_by('kode','DESC');    
+        $this->db->limit(1);
+        $query = $this->db->get('transaksi');
+            if($query->num_rows() <> 0){      
+                $data = $query->row();
+                $kode = intval($data->kode) + 1; 
+            }
+            else{      
+                $kode = 1;  
+            }
+        $batas = str_pad($kode, 5, "0", STR_PAD_LEFT);    
+        $faktur = "IN-".$batas;
 
 
 		$suplier = $this->Msuplier->getSuplier()->result();
@@ -42,7 +43,8 @@ class Pembelian extends CI_Controller {
             'title' => 'Pembelian | Fifo',
 			'suplier' => $suplier,
             'produk' => $produk,
-            'pembelian' => $pembelian
+            'pembelian' => $pembelian,
+            'faktur' => $faktur
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/pembelian');
@@ -68,7 +70,7 @@ class Pembelian extends CI_Controller {
         $input = [
             'barang_id' => $this->input->post('barang_id'),
             'suplier_id' => $this->input->post('suplier_id'),
-            'faktur' => 'IN-001',
+            'faktur' => $this->input->post('faktur'),
             'tgl' => $this->input->post('tgl'),
             'status' => '0',
             'pembelian' => json_encode($arr),
