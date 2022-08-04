@@ -84,4 +84,18 @@ class Produk extends CI_Controller {
 		$this->Mproduk->delete($id);
 		redirect('produk');
 	}
+
+    public function pdf(){
+        $barang = $this->Mproduk->getProduk()->result();
+        $datas = [
+            'produk' => $barang
+        ];
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/produk',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
 }

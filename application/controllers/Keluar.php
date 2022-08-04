@@ -55,6 +55,19 @@ class Keluar extends CI_Controller {
         $this->load->view('fifo/_footer');
     }
 
+    public function detail($id){
+        $detail = $this->Mkeluar->getByPenjualan($id)->result();
+        foreach($detail as $beli){
+            $beli->hpp = json_decode($beli->hpp);
+        }
+        $data = [
+            'detail' => $detail
+        ];
+        $this->load->view('fifo/_header', $data);
+        $this->load->view('fifo/page/detail');
+        $this->load->view('fifo/_footer');
+    }
+
     public function storeCart(){
         $data = [
             'barang_id' => $this->input->post('barang_id'),

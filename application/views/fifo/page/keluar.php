@@ -37,8 +37,7 @@
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td>Rp <?=number_format($data->total)?></td>
 										<td align="center">
-											<a onclick="return confirm('Data akan dihapus!')"
-												href="<?=base_url('suplier/delete/'.$data->id)?>">
+											<a href="<?=base_url('keluar/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
 											</a>
 										</td>

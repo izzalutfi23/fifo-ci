@@ -2,51 +2,42 @@
 <div class="main-panel">
 	<div class="content-wrapper">
 		<div class="page-header">
-			<h3 class="page-title">Hasil Verifikasi</h3>
-			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
-			</div>
+			<h3 class="page-title">Detail Barang Keluar</h3>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
-				<div class="card-body">
-						<a href="<?=base_url('kades/result/1')?>"><button class="btn btn-success mb-3">Memenuhi Syarat</button></a>
-						<a href="<?=base_url('kades/result/0')?>"><button class="btn btn-danger mb-3">Tidak Memenuhi Syarat</button></a>
-						<h4 class="card-title">Hasil Verifikasi</h4>
+					<div class="card-body">
+						<h4 class="card-title">Detail Barang Keluar</h4>
 						</p>
 						<div class="table-responsive">
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>
 										<th>No</th>
-										<th>Nama</th>
-										<th>Alamat</th>
-										<th>RT</th>
-										<th>RW</th>
-										<th>Verifikasi</th>
-										<th width="12%">Action</th>
+										<th>Faktur</th>
+										<th>Nama Barang</th>
+                                        <th>Tanggal</th>
+										<th>Jumlah</th>
+										<th>C2</th>
+										<th>Harga Satuan</th>
+                                        <th>Total</th>
 									</tr>
 								</thead>
 								<tbody>
 									<?php
                                         $no=1; 
-                                        foreach($result as $data){
+                                        foreach($detail as $data){
                                     ?>
 									<tr>
 										<td><?=$no++?></td>
-										<td><?=$data->nama?></td>
-										<td><?=$data->alamat?></td>
-										<td><?=$data->rt?></td>
-										<td><?=$data->rw?></td>
-										<td><?= ($data->label==1?'Memenuhi Syarat':'Tidak Memenuhi') ?></td>
-										<td>
-											<a href="<?=base_url('kades/detail/'.$data->id)?>">
-												<button class="btn btn-success btn-sm">Lihat Hasil</button>
-											</a>
-											<a onclick="return confirm('Data akan dihapus!')" href="<?=base_url('kades/del_result/'.$data->id)?>">
-												<button class="btn btn-danger btn-sm">Hapus</button>
-											</a>
-										</td>
+										<td><?=$data->faktur?></td>
+										<td><?=$data->barang?></td>
+										<td><?=date('d M Y', strtotime($data->tgl))?></td>
+										<td><?=$data->c2?></td>
+										<td><?=$data->hpp->jumlah?></td>
+										<td><?=number_format($data->hpp->harga)?></td>
+                                        <td><?=number_format($data->hpp->harga*$data->hpp->jumlah)?></td>
 									</tr>
 									<?php } ?>
 							</table>

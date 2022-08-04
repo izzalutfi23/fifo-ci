@@ -85,4 +85,21 @@ class Pembelian extends CI_Controller {
 		$this->Msuplier->delete($id);
 		redirect('suplier');
 	}
+
+    public function pdf(){
+        $pembelian = $this->Mpembelian->getPembelian()->result();
+        foreach($pembelian as $beli){
+            $beli->pembelian = json_decode($beli->pembelian);
+        }
+        $datas = [
+            'pembelian' => $pembelian
+        ];
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang-masuk.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/pembelian',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
 }

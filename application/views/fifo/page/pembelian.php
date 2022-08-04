@@ -4,6 +4,8 @@
 		<div class="page-header">
 			<h3 class="page-title">Data Barang Masuk</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+			<a href="<?=base_url('pembelian/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
 					<i class="mdi mdi-plus-circle"></i>Barang Masuk</button>
@@ -77,9 +79,9 @@
 										<th>Suplier</th>
                                         <th>Tanggal</th>
 										<th>Jumlah</th>
+										<th>C2</th>
 										<th>Harga Satuan</th>
                                         <th>Total</th>
-										<th width="12%">Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -93,21 +95,10 @@
 										<td><?=$data->barang?></td>
 										<td><?=$data->suplier?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
+										<td><?=$data->c2?></td>
 										<td><?=$data->pembelian->jumlah?></td>
 										<td><?=number_format($data->pembelian->harga)?></td>
                                         <td><?=number_format($data->pembelian->harga*$data->pembelian->jumlah)?></td>
-										<td>
-                                            <?php 
-                                                if($data->status == '0'){
-                                            ?>
-											<a onclick="return confirm('Konfirmasi Pembelian!')"
-												href="<?=base_url('suplier/delete/'.$data->id)?>">
-												<button class="btn btn-primary btn-sm">Konfirmasi</button>
-											</a>
-                                            <?php }else{ ?>
-                                                <button class="btn btn-success btn-sm"><i class="mdi mdi-check"></i></button>
-                                            <?php } ?>
-										</td>
 									</tr>
 									<?php } ?>
 							</table>

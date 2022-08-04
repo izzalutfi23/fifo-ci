@@ -13,6 +13,13 @@ class Mkeluar extends CI_Model {
         return $this->db->get('keranjang');
     }
 
+    public function getByPenjualan($id){
+        $this->db->where('t.penjualan_id', $id);
+        $this->db->select('t.id, b.nama as barang, b.c2, t.tgl, t.hpp, t.status, t.faktur, t.type');
+        $this->db->join('barang as b', 'b.id=t.barang_id', 'left');
+        return $this->db->get('transaksi as t');
+    }
+
     public function getByProduk($id){
         $this->db->where('barang_id', $id);
         return $this->db->get('keranjang');
