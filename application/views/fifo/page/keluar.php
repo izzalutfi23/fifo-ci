@@ -4,6 +4,8 @@
 		<div class="page-header">
 			<h3 class="page-title">Data Barang Keluar</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+				<a href="<?=base_url('keluar/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
                 <a href="<?=base_url('keluar/create')?>" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
 					<i class="mdi mdi-plus-circle"></i>Barang Keluar
                 </a>

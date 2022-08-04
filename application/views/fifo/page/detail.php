@@ -34,8 +34,8 @@
 										<td><?=$data->faktur?></td>
 										<td><?=$data->barang?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
+                                        <td><?=$data->hpp->jumlah?></td>
 										<td><?=$data->c2?></td>
-										<td><?=$data->hpp->jumlah?></td>
 										<td><?=number_format($data->hpp->harga)?></td>
                                         <td><?=number_format($data->hpp->harga*$data->hpp->jumlah)?></td>
 									</tr>

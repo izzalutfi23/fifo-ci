@@ -61,6 +61,7 @@ class Keluar extends CI_Controller {
             $beli->hpp = json_decode($beli->hpp);
         }
         $data = [
+            'title' => 'Detail Barang Keluar | Fifo',
             'detail' => $detail
         ];
         $this->load->view('fifo/_header', $data);
@@ -237,4 +238,28 @@ class Keluar extends CI_Controller {
 		$this->Msuplier->delete($id);
 		redirect('suplier');
 	}
+
+    public function pdf(){
+        $penjualan = $this->Mkeluar->getPenjualan()->result();
+        foreach($penjualan as $data){
+            $detail = $this->Mkeluar->getByPenjualan($data->id)->result();
+            $jml = 0;
+            foreach($detail as $beli){
+                $beli->hpp = json_decode($beli->hpp);
+                $jml += 1;
+            }
+            $data->detail = $detail;
+            $data->jml = $jml;
+        }
+        $datas = [
+            'penjualan' => $penjualan
+        ];
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang-keluar.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/keluar',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
 }
