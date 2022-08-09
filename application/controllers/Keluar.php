@@ -9,6 +9,7 @@ class Keluar extends CI_Controller {
         $this->load->model('Msuplier');
         $this->load->model('Mkeluar');
         $this->load->model('Mpembelian');
+        $this->load->model('Mtoko');
 		if($this->session->userdata('user')){
             
         }
@@ -44,11 +45,13 @@ class Keluar extends CI_Controller {
         $faktur = "OUT-".$batas;
 		$cart = $this->Mkeluar->getCart()->result();
         $produk = $this->Mproduk->getProduk()->result();
+        $toko = $this->Mtoko->getToko()->result();
         $data = [
             'title' => 'Tambah Barang Keluar | Fifo',
 			'cart' => $cart,
             'faktur' => $faktur,
-            'produk' => $produk
+            'produk' => $produk,
+            'toko' => $toko
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/create');
@@ -91,9 +94,10 @@ class Keluar extends CI_Controller {
 
     public function store(){
         $keluar = [
+            'toko_id' => $this->input->post('toko_id'), 
             'faktur' => $this->input->post('faktur'),
             'tgl' => $this->input->post('tanggal'),
-            'total' => $this->input->post('total')
+            'total' => $this->input->post('total'),
         ];
 		$this->Mkeluar->storePenjualan($keluar);
         $last_id = $this->db->insert_id();
@@ -106,21 +110,6 @@ class Keluar extends CI_Controller {
                     'jumlah' => $produk->qty,
                     'harga' => $produk->harga
                 ];
-                $saldo = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $input = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr),
-                    'saldo' => json_encode($saldo),
-                    'type' => 'penjualan'
-                ];
-                $this->Mpembelian->store($input);
 
                 // Update Produk
                 $sisa = $cart->jumlah - $produk->qty;
@@ -134,6 +123,22 @@ class Keluar extends CI_Controller {
                 ];
                 $this->Mproduk->update($data, $cart->barang_id);
                 $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
+                // Update Sisa
+                $saldo = [
+                    'jumlah' => $temp->jumlah,
+                    'harga' => $temp->harga
+                ];
+                $input = [
+                    'barang_id' => $cart->barang_id,
+                    'penjualan_id' => $last_id,
+                    'faktur' => $this->input->post('faktur'),
+                    'tgl' => $this->input->post('tanggal'),
+                    'status' => '0',
+                    'hpp' => json_encode($arr),
+                    'saldo' => json_encode($saldo),
+                    'type' => 'penjualan'
+                ];
+                $this->Mpembelian->store($input);
 
                 // Kedua
                 $produk2 = $this->Mproduk->getById($cart->barang_id)->row();
@@ -142,7 +147,7 @@ class Keluar extends CI_Controller {
                     'harga' => $produk2->harga
                 ];
                 $saldo2 = [
-                    'jumlah' => $sisa,
+                    'jumlah' => $produk2->qty-$sisa,
                     'harga' => $produk2->harga
                 ];
                 $input2 = [
@@ -170,21 +175,6 @@ class Keluar extends CI_Controller {
                     'jumlah' => $produk->qty,
                     'harga' => $produk->harga
                 ];
-                $saldo = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $input = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr),
-                    'saldo' => json_encode($saldo),
-                    'type' => 'penjualan'
-                ];
-                $this->Mpembelian->store($input);
 
                 // Update Produk
                 $sisa = $cart->jumlah - $produk->qty;
@@ -197,16 +187,32 @@ class Keluar extends CI_Controller {
                     'qty' => $temp->jumlah - $sisa,
                     'harga' => $temp->harga
                 ];
+                $saldo = [
+                    'jumlah' => $temp->jumlah,
+                    'harga' => $temp->harga
+                ];
+                $input = [
+                    'barang_id' => $cart->barang_id,
+                    'penjualan_id' => $last_id,
+                    'faktur' => $this->input->post('faktur'),
+                    'tgl' => $this->input->post('tanggal'),
+                    'status' => '0',
+                    'hpp' => json_encode($arr),
+                    'saldo' => json_encode($saldo),
+                    'type' => 'penjualan'
+                ];
+                $this->Mpembelian->store($input);
                 $this->Mproduk->update($data, $cart->barang_id);
                 $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
             }
             else{
+                $produk = $this->Mproduk->getById($cart->barang_id)->row();
                 $arr = [
                     'jumlah' => $cart->jumlah,
                     'harga' => $produk->harga
                 ];
                 $saldo = [
-                    'jumlah' => $cart->jumlah,
+                    'jumlah' => $produk->qty - $cart->jumlah,
                     'harga' => $produk->harga
                 ];
                 $input = [

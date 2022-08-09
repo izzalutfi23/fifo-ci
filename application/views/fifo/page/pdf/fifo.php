@@ -112,7 +112,7 @@
                 <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($tkeluar)?></th>
                 <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($stokPlus-$stokMin)?></th>
                 <th style="border: 1px solid #000; padding: 5px;" align="right"></th>
-                <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($sisaPlus-$sisaMin)?></th>
+                <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format(($stokPlus-$stokMin) * $barang->harga)?></th>
             </tr>
         </table>
         <br>

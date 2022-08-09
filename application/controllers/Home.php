@@ -10,11 +10,11 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$train = $this->Mhome->get_train()->result();
+		$train = 10;
 		// print_r($train);
 		$data = [
 			'title' => 'Home | Fifo',
-			'train' => count($train)
+			'train' => $train
 		];
 		$this->load->view('fifo/_header', $data);
 		$this->load->view('fifo/page/home');

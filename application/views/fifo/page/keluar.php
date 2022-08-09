@@ -23,6 +23,7 @@
 									<tr>
 										<th>No</th>
 										<th>Faktur</th>
+										<th>Toko</th>
 										<th>Tgl</th>
 										<th>Total</th>
 										<th width="12%">Action</th>
@@ -36,6 +37,7 @@
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->faktur?></td>
+										<td><?=$data->nama?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td>Rp <?=number_format($data->total)?></td>
 										<td align="center">

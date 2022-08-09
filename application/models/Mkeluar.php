@@ -41,6 +41,7 @@ class Mkeluar extends CI_Model {
     }
 
     public function getPenjualan(){
+        $this->db->join('toko', 'toko.id=penjualan.toko_id');
         return $this->db->get('penjualan');
     }
 

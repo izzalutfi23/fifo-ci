@@ -76,7 +76,7 @@
 										<td align="right"><?=number_format($tkeluar)?></td>
 										<td align="right"><?=number_format($stokPlus-$stokMin)?></td>
 										<td align="right"></td>
-										<td align="right"><?=number_format($sisaPlus-$sisaMin)?></td>
+										<td align="right"><?=number_format(($stokPlus-$stokMin) * $barang->harga)?></td>
 									</tr>
 								</tfoot>
 							</table>

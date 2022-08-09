@@ -64,8 +64,8 @@ class Pembelian extends CI_Controller {
             'harga' => $this->input->post('harga')
         ];
         $saldo = [
-            'jumlah' => $this->input->post('jumlah'),
-            'harga' => $this->input->post('harga')
+            'jumlah' => $produk->qty,
+            'harga' => $produk->harga
         ];
         $input = [
             'barang_id' => $this->input->post('barang_id'),

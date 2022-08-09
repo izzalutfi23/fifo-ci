@@ -82,6 +82,17 @@
 					<div class="card-body">
 						<form action="<?=base_url('keluar/store')?>" method="post">
 							<div class="row">
+							<div class="form-group col-md-6">
+									<label class="pt-3">Pilih Toko</label>
+									<select class="form-control" required="required" name="toko_id">
+										<option value="">Pilih Toko</option>
+										<?php 
+											foreach($toko as $dtoko){
+										?>
+										<option value="<?=$dtoko->id?>"><?=$dtoko->nama?></option>
+										<?php } ?>
+									</select>
+								</div>
 								<div class="form-group col-md-6">
 									<label class="pt-3">Tanggal</label>
 									<input type="hidden" name="total" value="<?=$total?>">
