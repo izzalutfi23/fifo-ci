@@ -2,7 +2,7 @@
 <div class="main-panel">
 	<div class="content-wrapper">
 		<div class="page-header">
-			<h3 class="page-title">Tambah Barang Keluar</h3>
+			<h3 class="page-title">Tambah Barang Masuk</h3>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
@@ -10,7 +10,7 @@
                 	<div class="card-body">
 						<h4 class="card-title">Form Tambah Keranjang</h4>
 						<p class="card-description">Silahkan isi sesuai petunjuk</p>
-						<form action="<?=base_url('keluar/storeCart')?>" method="post">
+						<form action="<?=base_url('pembelian/storeCart')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label class="pt-3">No Faktur</label>
@@ -28,6 +28,8 @@
 								<div class="form-group col-md-6">
                                     <label class="pt-3">Jumlah</label>
 									<input type="number" name="jumlah" class="form-control" placeholder="Masukkan jumlah">
+                                    <label class="pt-3">Harga Satuan</label>
+									<input type="number" name="harga" class="form-control" placeholder="Masukkan harga">
 									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Tambahkan Keranjang">
 								</div>
 							</div>
@@ -63,7 +65,7 @@
 										<td>Rp <?=number_format($data->jumlah * $data->harga)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"
-												href="<?=base_url('keluar/delcart/'.$data->barang_id)?>">
+												href="<?=base_url('pembelian/delcart/'.$data->barang_id)?>">
 												<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 											</a>
 										</td>
@@ -80,27 +82,19 @@
 						</div>
 					</div>
 					<div class="card-body">
-						<form action="<?=base_url('keluar/store')?>" method="post">
+						<form action="<?=base_url('pembelian/storeBeli')?>" method="post">
 							<div class="row">
 							<div class="form-group col-md-6">
-									<label class="pt-3">Pilih Toko</label>
-									<select class="form-control" required="required" name="toko_id">
-										<option value="">Pilih Toko</option>
-										<?php 
-											foreach($toko as $dtoko){
-										?>
-										<option value="<?=$dtoko->id?>"><?=$dtoko->nama?></option>
-										<?php } ?>
-									</select>
+									
 								</div>
 								<div class="form-group col-md-6">
-									<label class="pt-3">Tanggal</label>
+									<!-- <label class="pt-3">Tanggal</label> -->
 									<input type="hidden" name="total" value="<?=$total?>">
 									<input type="hidden" name="faktur" value="<?=$faktur?>">
-									<input type="date" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
+									<input type="hidden" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
 								</div>
 								<div class="form-group col-md-6">
-									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Simpan Barang Keluar">
+									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Simpan Barang Masuk">
 								</div>
 							</div>
 						</form>

@@ -92,12 +92,17 @@ class Keluar extends CI_Controller {
 		redirect('keluar/create');
     }
 
+    public function delcart($id){
+        $this->Mkeluar->delCart($id);
+        redirect('keluar/create');
+    }
+
     public function store(){
         $keluar = [
-            'toko_id' => $this->input->post('toko_id'), 
+            'toko_id' => $this->input->post('toko_id'),
             'faktur' => $this->input->post('faktur'),
             'tgl' => $this->input->post('tanggal'),
-            'total' => $this->input->post('total'),
+            'total' => $this->input->post('total')
         ];
 		$this->Mkeluar->storePenjualan($keluar);
         $last_id = $this->db->insert_id();
@@ -110,23 +115,9 @@ class Keluar extends CI_Controller {
                     'jumlah' => $produk->qty,
                     'harga' => $produk->harga
                 ];
-
-                // Update Produk
-                $sisa = $cart->jumlah - $produk->qty;
-                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
-                $temp = json_decode($trx[1]->pembelian);
-                $data = [
-                    'stok' => $produk->stok - $produk->qty,
-                    'trx_id' => $trx[1]->id,
-                    'qty' => $temp->jumlah - $sisa,
-                    'harga' => $temp->harga
-                ];
-                $this->Mproduk->update($data, $cart->barang_id);
-                $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
-                // Update Sisa
                 $saldo = [
-                    'jumlah' => $temp->jumlah,
-                    'harga' => $temp->harga
+                    'jumlah' => $produk->qty,
+                    'harga' => $produk->harga
                 ];
                 $input = [
                     'barang_id' => $cart->barang_id,
@@ -140,6 +131,19 @@ class Keluar extends CI_Controller {
                 ];
                 $this->Mpembelian->store($input);
 
+                // Update Produk
+                $sisa = $cart->jumlah - $produk->qty;
+                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
+                $temp = json_decode($trx[1]->pembelian);
+                $data = [
+                    'stok' => $produk->stok - $produk->qty,
+                    'trx_id' => $trx[1]->id,
+                    'qty' => $temp->jumlah - $sisa,
+                    'harga' => $temp->harga
+                ];
+                $this->Mproduk->update($data, $cart->barang_id);
+                $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
+
                 // Kedua
                 $produk2 = $this->Mproduk->getById($cart->barang_id)->row();
                 $arr2 = [
@@ -147,7 +151,7 @@ class Keluar extends CI_Controller {
                     'harga' => $produk2->harga
                 ];
                 $saldo2 = [
-                    'jumlah' => $produk2->qty-$sisa,
+                    'jumlah' => $sisa,
                     'harga' => $produk2->harga
                 ];
                 $input2 = [
@@ -175,21 +179,9 @@ class Keluar extends CI_Controller {
                     'jumlah' => $produk->qty,
                     'harga' => $produk->harga
                 ];
-
-                // Update Produk
-                $sisa = $cart->jumlah - $produk->qty;
-                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
-                $temp = json_decode($trx[1]->pembelian);
-                // echo $trx[0]->id;
-                $data = [
-                    'stok' => $produk->stok - $produk->qty,
-                    'trx_id' => $trx[1]->id,
-                    'qty' => $temp->jumlah - $sisa,
-                    'harga' => $temp->harga
-                ];
                 $saldo = [
-                    'jumlah' => $temp->jumlah,
-                    'harga' => $temp->harga
+                    'jumlah' => $produk->qty,
+                    'harga' => $produk->harga
                 ];
                 $input = [
                     'barang_id' => $cart->barang_id,
@@ -202,17 +194,28 @@ class Keluar extends CI_Controller {
                     'type' => 'penjualan'
                 ];
                 $this->Mpembelian->store($input);
+
+                // Update Produk
+                $sisa = $cart->jumlah - $produk->qty;
+                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
+                $temp = json_decode($trx[1]->pembelian);
+                // echo $trx[0]->id;
+                $data = [
+                    'stok' => $produk->stok - $produk->qty,
+                    'trx_id' => $trx[1]->id,
+                    'qty' => $temp->jumlah - $sisa,
+                    'harga' => $temp->harga
+                ];
                 $this->Mproduk->update($data, $cart->barang_id);
                 $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
             }
             else{
-                $produk = $this->Mproduk->getById($cart->barang_id)->row();
                 $arr = [
                     'jumlah' => $cart->jumlah,
                     'harga' => $produk->harga
                 ];
                 $saldo = [
-                    'jumlah' => $produk->qty - $cart->jumlah,
+                    'jumlah' => $cart->jumlah,
                     'harga' => $produk->harga
                 ];
                 $input = [

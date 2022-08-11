@@ -6,9 +6,9 @@
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 			<a href="<?=base_url('pembelian/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
-				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
-					data-target=".tambah">
-					<i class="mdi mdi-plus-circle"></i>Barang Masuk</button>
+			<a href="<?=base_url('pembelian/create')?>">
+				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
+					<i class="mdi mdi-plus-circle"></i>Barang Masuk</button></a>
 			</div>
 		</div>
 		<div class="row">
@@ -75,13 +75,8 @@
 									<tr>
 										<th>No</th>
 										<th>Faktur Pembelian</th>
-										<th>Nama Barang</th>
-										<th>Suplier</th>
                                         <th>Tanggal</th>
-										<th>Jumlah</th>
-										<th>C2</th>
-										<th>Harga Satuan</th>
-                                        <th>Total</th>
+                                        <th>Action</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -92,13 +87,12 @@
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->faktur?></td>
-										<td><?=$data->barang?></td>
-										<td><?=$data->suplier?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
-										<td><?=$data->c2?></td>
-										<td><?=$data->pembelian->jumlah?></td>
-										<td><?=number_format($data->pembelian->harga)?></td>
-                                        <td><?=number_format($data->pembelian->harga*$data->pembelian->jumlah)?></td>
+                                        <td align="center">
+										<a href="<?=base_url('pembelian/detail/'.$data->id)?>">
+												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
+											</a>
+										</td>
 									</tr>
 									<?php } ?>
 							</table>

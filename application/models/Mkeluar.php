@@ -29,6 +29,11 @@ class Mkeluar extends CI_Model {
         $this->db->update('keranjang', $data, ['barang_id'=>$id]);
     }
 
+    public function delCart($id){
+        $this->db->where('barang_id', $id);
+        $this->db->delete('keranjang');
+    }
+
     public function getTrx($id){
         $this->db->where('barang_id', $id);
         $this->db->where_in('type', ['awal', 'pembelian']);
@@ -41,8 +46,9 @@ class Mkeluar extends CI_Model {
     }
 
     public function getPenjualan(){
-        $this->db->join('toko', 'toko.id=penjualan.toko_id');
-        return $this->db->get('penjualan');
+        $this->db->select('p.*, t.nama');
+        $this->db->join('toko as t', 't.id=p.toko_id');
+        return $this->db->get('penjualan as p');
     }
 
     public function storeCart($data){

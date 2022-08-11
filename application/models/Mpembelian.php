@@ -4,11 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mpembelian extends CI_Model {
 	
     public function getPembelian(){
-        $this->db->select('t.id, b.nama as barang, b.c2, s.nama as suplier, t.tgl, t.pembelian, t.status, t.faktur, t.type');
-        $this->db->where('type', 'pembelian');
-        $this->db->join('barang as b', 'b.id=t.barang_id', 'left');
-        $this->db->join('suplier as s', 's.id=t.suplier_id', 'left');
-        return $this->db->get('transaksi as t');
+        return $this->db->get('pembelian');
     }
 
     public function store($data){
@@ -17,6 +13,58 @@ class Mpembelian extends CI_Model {
 
     public function update($data, $id){
         $this->db->update('barang', $data, ['id'=>$id]);
+    }
+
+    public function getCart(){
+        $this->db->select('c.*, b.nama');
+        $this->db->join('barang as b', 'b.id=c.barang_id');
+        return $this->db->get('cart as c');
+    }
+
+    public function getByProduk($id){
+        $this->db->where('barang_id', $id);
+        return $this->db->get('cart');
+    }
+
+    public function storeCart($data){
+        $this->db->insert('cart', $data);
+    }
+
+    public function getCartById($id){
+        $this->db->where('barang_id', $id);
+        return $this->db->get('cart');
+    }
+
+    public function updateCart($data, $id){
+        $this->db->update('cart', $data, ['barang_id'=>$id]);
+    }
+
+    public function delCart($id){
+        $this->db->where('barang_id', $id);
+        $this->db->delete('cart');
+    }
+
+    public function storePembelian($data){
+        $this->db->insert('pembelian', $data);
+    }
+
+    public function storeDetail($data){
+        $this->db->insert('detail', $data);
+    }
+
+    public function deleteCart(){
+        $this->db->truncate('cart');
+    }
+
+    public function getByPembelian($id){
+        $this->db->select('d.*, b.kode_barang, b.barcode, b.nama, b.c2, b.stok, b.umur, b.retur');
+        $this->db->join('barang as b', 'b.id=d.barang_id');
+        $this->db->where('d.pembelian_id', $id);
+        return $this->db->get('detail as d');
+    }
+
+    public function updateDetail($data, $id){
+        $this->db->update('detail', $data, ['id'=>$id]);
     }
 
     public function delete($id){
