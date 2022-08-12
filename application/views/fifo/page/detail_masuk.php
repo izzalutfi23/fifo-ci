@@ -41,7 +41,7 @@
                                             <?php 
                                                 if($data->status == '0'){
                                             ?>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target=".tambah">Konfirmasi</button>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target=".tambah<?=$data->id?>">Konfirmasi</button>
                                             <?php 
                                                 }else{
                                             ?>
@@ -50,7 +50,7 @@
                                         </td>
 									</tr>
                                     <!-- Modal -->
-                                    <div class="modal fade tambah" tabindex="-1" role="dialog"
+                                    <div class="modal fade tambah<?=$data->id?>" tabindex="-1" role="dialog"
                                         aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-fade">
                                             <div class="modal-content">

@@ -82,6 +82,31 @@
 							</table>
 						</div>
 					</div>
+					<div class="card-body">
+						<h4 class="card-title">Keterangan harga dan jumlah stok</h4>
+						<div class="table-responsive">
+							<table class="table table-striped table-bordered" style="width:100%">
+								<tr>
+									<th>Harga</th>
+									<th>Stok</th>
+								</tr>
+								<?php 
+									foreach($transaksi as $trx){
+									if($trx->id == $barang->trx_id){
+								?>
+								<tr>
+									<td align="right">Rp <?=number_format($barang->harga)?></td>
+									<td align="right"><?=number_format($barang->qty)?></td>
+								</tr>
+								<?php }else{ ?>
+								<tr>
+									<td align="right">Rp <?=number_format($trx->pembelian->harga)?></td>
+									<td align="right"><?=number_format($trx->pembelian->jumlah)?></td>
+								</tr>
+								<?php }} ?>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

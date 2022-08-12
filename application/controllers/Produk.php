@@ -8,6 +8,7 @@ class Produk extends CI_Controller {
 		$this->load->model('Mhome');
         $this->load->model('Mproduk');
         $this->load->model('Mpembelian');
+        $this->load->model('Msuplier');
 		if($this->session->userdata('user')){
             
         }
@@ -18,9 +19,11 @@ class Produk extends CI_Controller {
 
     public function index(){
 		$produk = $this->Mproduk->getProduk()->result();
+        $suplier = $this->Msuplier->getSuplier()->result();
         $data = [
             'title' => 'Produk | Fifo',
-			'produk' => $produk
+			'produk' => $produk,
+            'suplier' => $suplier
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/produk');
@@ -30,6 +33,7 @@ class Produk extends CI_Controller {
     public function store(){        
         $input = [
             'kode_barang' => $this->input->post('kode_barang'),
+            'suplier_id' => $this->input->post('suplier_id'),
             'barcode' => $this->input->post('barcode'),
             'nama' => $this->input->post('nama'),
             'c2' => $this->input->post('c2'),

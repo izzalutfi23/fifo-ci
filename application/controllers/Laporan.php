@@ -32,15 +32,20 @@ class Laporan extends CI_Controller {
     public function hasil(){
 		$laporan = $this->Mlaporan->getLaporan($this->input->post('barang_id'))->result();
         $barang = $this->Mproduk->getById($this->input->post('barang_id'))->row();
+        $transaksi = $this->db->get_where('transaksi', ['barang_id' => $barang->id, 'type' => 'pembelian', 'terpakai' => '0'])->result();
         foreach($laporan as $data){
             $data->pembelian = json_decode($data->pembelian);
             $data->hpp = json_decode($data->hpp);
             $data->saldo = json_decode($data->saldo);
         }
+        foreach($transaksi as $trx){
+            $trx->pembelian = json_decode($trx->pembelian);
+        }
         $data = [
             'title' => 'Laporan Stok Barang | Fifo',
             'barang' => $barang,
-			'laporan' => $laporan
+			'laporan' => $laporan,
+            'transaksi' => $transaksi
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/fifo');

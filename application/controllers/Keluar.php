@@ -109,134 +109,136 @@ class Keluar extends CI_Controller {
         $carts = $this->Mkeluar->getCart()->result();
         foreach($carts as $cart){
             $produk = $this->Mproduk->getById($cart->barang_id)->row();
-            if($produk->qty < $cart->jumlah){
-                // Create Trx
-                $arr = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $saldo = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $input = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr),
-                    'saldo' => json_encode($saldo),
-                    'type' => 'penjualan'
-                ];
-                $this->Mpembelian->store($input);
-
-                // Update Produk
-                $sisa = $cart->jumlah - $produk->qty;
-                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
-                $temp = json_decode($trx[1]->pembelian);
-                $data = [
-                    'stok' => $produk->stok - $produk->qty,
-                    'trx_id' => $trx[1]->id,
-                    'qty' => $temp->jumlah - $sisa,
-                    'harga' => $temp->harga
-                ];
-                $this->Mproduk->update($data, $cart->barang_id);
-                $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
-
-                // Kedua
-                $produk2 = $this->Mproduk->getById($cart->barang_id)->row();
-                $arr2 = [
-                    'jumlah' => $sisa,
-                    'harga' => $produk2->harga
-                ];
-                $saldo2 = [
-                    'jumlah' => $sisa,
-                    'harga' => $produk2->harga
-                ];
-                $input2 = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr2),
-                    'saldo' => json_encode($saldo2),
-                    'type' => 'penjualan'
-                ];
-
-                $newStok = $produk2->stok - $sisa;
-                $dataProduk = [
-                    'stok' => $newStok
-                ];
-                $this->Mproduk->update($dataProduk, $cart->barang_id);
-
-                $this->Mpembelian->store($input2);
-            }
-            elseif($produk->qty == $cart->jumlah){
-                // Create Trx
-                $arr = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $saldo = [
-                    'jumlah' => $produk->qty,
-                    'harga' => $produk->harga
-                ];
-                $input = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr),
-                    'saldo' => json_encode($saldo),
-                    'type' => 'penjualan'
-                ];
-                $this->Mpembelian->store($input);
-
-                // Update Produk
-                $sisa = $cart->jumlah - $produk->qty;
-                $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
-                $temp = json_decode($trx[1]->pembelian);
-                // echo $trx[0]->id;
-                $data = [
-                    'stok' => $produk->stok - $produk->qty,
-                    'trx_id' => $trx[1]->id,
-                    'qty' => $temp->jumlah - $sisa,
-                    'harga' => $temp->harga
-                ];
-                $this->Mproduk->update($data, $cart->barang_id);
-                $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
-            }
-            else{
-                $arr = [
-                    'jumlah' => $cart->jumlah,
-                    'harga' => $produk->harga
-                ];
-                $saldo = [
-                    'jumlah' => $cart->jumlah,
-                    'harga' => $produk->harga
-                ];
-                $input = [
-                    'barang_id' => $cart->barang_id,
-                    'penjualan_id' => $last_id,
-                    'faktur' => $this->input->post('faktur'),
-                    'tgl' => $this->input->post('tanggal'),
-                    'status' => '0',
-                    'hpp' => json_encode($arr),
-                    'saldo' => json_encode($saldo),
-                    'type' => 'penjualan'
-                ];
-
-                $newStok = $produk->stok - $cart->jumlah;
-                $dataProduk = [
-                    'stok' => $newStok,
-                    'qty' => $produk->qty - $cart->jumlah
-                ];
-                $this->Mproduk->update($dataProduk, $cart->barang_id);
-
-                $this->Mpembelian->store($input);
+            if($produk->stok >= $cart->jumlah){
+                if($produk->qty < $cart->jumlah){
+                    // Create Trx
+                    $arr = [
+                        'jumlah' => $produk->qty,
+                        'harga' => $produk->harga
+                    ];
+                    $saldo = [
+                        'jumlah' => $produk->qty,
+                        'harga' => $produk->harga
+                    ];
+                    $input = [
+                        'barang_id' => $cart->barang_id,
+                        'penjualan_id' => $last_id,
+                        'faktur' => $this->input->post('faktur'),
+                        'tgl' => $this->input->post('tanggal'),
+                        'status' => '0',
+                        'hpp' => json_encode($arr),
+                        'saldo' => json_encode($saldo),
+                        'type' => 'penjualan'
+                    ];
+                    $this->Mpembelian->store($input);
+    
+                    // Update Produk
+                    $sisa = $cart->jumlah - $produk->qty;
+                    $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
+                    $temp = json_decode($trx[1]->pembelian);
+                    $data = [
+                        'stok' => $produk->stok - $produk->qty,
+                        'trx_id' => $trx[1]->id,
+                        'qty' => $temp->jumlah - $sisa,
+                        'harga' => $temp->harga
+                    ];
+                    $this->Mproduk->update($data, $cart->barang_id);
+                    $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
+    
+                    // Kedua
+                    $produk2 = $this->Mproduk->getById($cart->barang_id)->row();
+                    $arr2 = [
+                        'jumlah' => $sisa,
+                        'harga' => $produk2->harga
+                    ];
+                    $saldo2 = [
+                        'jumlah' => $sisa,
+                        'harga' => $produk2->harga
+                    ];
+                    $input2 = [
+                        'barang_id' => $cart->barang_id,
+                        'penjualan_id' => $last_id,
+                        'faktur' => $this->input->post('faktur'),
+                        'tgl' => $this->input->post('tanggal'),
+                        'status' => '0',
+                        'hpp' => json_encode($arr2),
+                        'saldo' => json_encode($saldo2),
+                        'type' => 'penjualan'
+                    ];
+    
+                    $newStok = $produk2->stok - $sisa;
+                    $dataProduk = [
+                        'stok' => $newStok
+                    ];
+                    $this->Mproduk->update($dataProduk, $cart->barang_id);
+    
+                    $this->Mpembelian->store($input2);
+                }
+                elseif($produk->qty == $cart->jumlah){
+                    // Create Trx
+                    $arr = [
+                        'jumlah' => $produk->qty,
+                        'harga' => $produk->harga
+                    ];
+                    $saldo = [
+                        'jumlah' => $produk->qty,
+                        'harga' => $produk->harga
+                    ];
+                    $input = [
+                        'barang_id' => $cart->barang_id,
+                        'penjualan_id' => $last_id,
+                        'faktur' => $this->input->post('faktur'),
+                        'tgl' => $this->input->post('tanggal'),
+                        'status' => '0',
+                        'hpp' => json_encode($arr),
+                        'saldo' => json_encode($saldo),
+                        'type' => 'penjualan'
+                    ];
+                    $this->Mpembelian->store($input);
+    
+                    // Update Produk
+                    $sisa = $cart->jumlah - $produk->qty;
+                    $trx = $this->Mkeluar->getTrx($cart->barang_id)->result();
+                    $temp = json_decode($trx[1]->pembelian);
+                    // echo $trx[0]->id;
+                    $data = [
+                        'stok' => $produk->stok - $produk->qty,
+                        'trx_id' => $trx[1]->id,
+                        'qty' => $temp->jumlah - $sisa,
+                        'harga' => $temp->harga
+                    ];
+                    $this->Mproduk->update($data, $cart->barang_id);
+                    $this->Mkeluar->updateTrx(['terpakai' => '1'], $trx[0]->id);
+                }
+                else{
+                    $arr = [
+                        'jumlah' => $cart->jumlah,
+                        'harga' => $produk->harga
+                    ];
+                    $saldo = [
+                        'jumlah' => $cart->jumlah,
+                        'harga' => $produk->harga
+                    ];
+                    $input = [
+                        'barang_id' => $cart->barang_id,
+                        'penjualan_id' => $last_id,
+                        'faktur' => $this->input->post('faktur'),
+                        'tgl' => $this->input->post('tanggal'),
+                        'status' => '0',
+                        'hpp' => json_encode($arr),
+                        'saldo' => json_encode($saldo),
+                        'type' => 'penjualan'
+                    ];
+    
+                    $newStok = $produk->stok - $cart->jumlah;
+                    $dataProduk = [
+                        'stok' => $newStok,
+                        'qty' => $produk->qty - $cart->jumlah
+                    ];
+                    $this->Mproduk->update($dataProduk, $cart->barang_id);
+    
+                    $this->Mpembelian->store($input);
+                }
             }
         }
         $this->Mkeluar->deleteCart();

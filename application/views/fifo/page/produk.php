@@ -33,6 +33,15 @@
 											<form action="<?=base_url('produk/store')?>" method="post">
 												<div class="row">
 													<div class="form-group col-md-6">
+														<label class="pt-3">Suplier</label>
+														<select name="suplier_id" class="form-control" required="required">
+															<option value="">Pilih Suplier</option>
+															<?php 
+																foreach($suplier as $sup){
+															?>
+															<option value="<?=$sup->id?>"><?=$sup->nama?></option>
+															<?php } ?>
+														</select>
 														<label class="pt-3">Kode Barang</label>
 														<input required="required" type="text" name="kode_barang" class="form-control" placeholder="Masukkan kode barang">
 														<label class="pt-3">Barcode</label>
@@ -67,6 +76,7 @@
 									<tr>
 										<th>No</th>
 										<th>Kode Barang</th>
+										<th>Suplier</th>
 										<th>Barcode</th>
 										<th>Nama</th>
 										<th>C2</th>
@@ -85,6 +95,7 @@
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->kode_barang?></td>
+										<td><?=$data->suplier?></td>
 										<td><?=$data->barcode?></td>
 										<td><?=$data->nama?></td>
 										<td><?=$data->c2?></td>

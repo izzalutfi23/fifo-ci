@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mproduk extends CI_Model {
 	
     public function getProduk(){
-        return $this->db->get('barang');
+        $this->db->select('p.*, s.nama as suplier');
+        $this->db->join('suplier as s', 's.id=p.suplier_id');
+        return $this->db->get('barang as p');
     }
 
     public function getById($id){
