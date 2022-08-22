@@ -35,7 +35,7 @@ class Penyimpanan extends CI_Controller {
         $produk = $this->Mproduk->getProduk()->result();
         $simpan = $this->Msimpan->getSimpan()->result();
         $data = [
-            'title' => 'Pembelian | Fifo',
+            'title' => 'Penyimpanan | Fifo',
             'produk' => $produk,
             'faktur' => $faktur,
             'simpan' => $simpan
@@ -46,7 +46,14 @@ class Penyimpanan extends CI_Controller {
     }
 
     public function store(){
-        $input = $this->input->post(null, true);
+        $input = [
+            'barang_id' => $this->input->post('barang_id'),
+            'tgl' => $this->input->post('tgl'),
+            'jumlah' => $this->input->post('jumlah'),
+            'rak' => $this->input->post('rak'),
+            'line' => $this->input->post('line'),
+            'expire_date' => $this->input->post('expire_date'),
+        ];
 		$this->Msimpan->store($input);
 		redirect('penyimpanan');
     }

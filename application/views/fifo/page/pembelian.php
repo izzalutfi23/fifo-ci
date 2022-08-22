@@ -4,13 +4,12 @@
 		<div class="page-header">
 			<h3 class="page-title">Data Barang Masuk</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
-			<a href="<?=base_url('pembelian/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
-					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
-			<a href="<?=base_url('pembelian/create')?>">
-				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
-					<i class="mdi mdi-plus-circle"></i>Barang Masuk</button></a>
+			<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
+				data-target=".tambah">
+				<i class="mdi mdi-plus-circle"></i>Barang Masuk</button>
 			</div>
 		</div>
+		
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
@@ -24,26 +23,15 @@
 								<div class="modal-dialog modal-fade">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h5 class="modal-title" id="exampleModalLongTitle">Tambah Barang Masuk</h5>
+											<h5 class="modal-title" id="exampleModalLongTitle">Pilih Suplier Terlebih Dahulu</h5>
 											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 												<span aria-hidden="true">&times;</span>
 											</button>
 										</div>
 										<div class="modal-body">
-											<form action="<?=base_url('pembelian/store')?>" method="post">
+											<form action="<?=base_url('pembelian/before')?>" method="post">
 												<div class="row">
 													<div class="form-group col-md-12">
-														<label class="pt-3">Faktur</label>
-														<input required="required" type="text" name="faktur" value="<?=$faktur?>" readonly="readonly" class="form-control">
-														<label class="pt-3">Produk</label>
-														<select name="barang_id" class="form-control" required="required">
-                                                            <option value="">Pilih Produk</option>
-                                                            <?php
-                                                                foreach($produk as $prod){
-                                                            ?>
-                                                            <option value="<?=$prod->id?>"><?=$prod->nama?></option>
-                                                            <?php } ?>
-                                                        </select>
 														<label class="pt-3">Suplier</label>
 														<select name="suplier_id" class="form-control" required="required">
                                                             <option value="">Pilih Suplier</option>
@@ -53,17 +41,11 @@
                                                             <option value="<?=$sup->id?>"><?=$sup->nama?></option>
                                                             <?php } ?>
                                                         </select>
-														<label class="pt-3">Tgl</label>
-														<input required="required" type="date" name="tgl" value="<?=date('Y-m-d')?>" class="form-control">
-														<label class="pt-3">Jumlah (Qty)</label>
-														<input required="required" type="number" name="jumlah" class="form-control" placeholder="Masukkan email">
-                                                        <label class="pt-3">Harga Per Unit (Satuan)</label>
-														<input required="required" type="harga" name="harga" class="form-control" placeholder="Masukkan harga">
 													</div>
 												</div>
 										</div>
 										<div class="modal-footer">
-											<button type="submit" class="btn btn-primary">Simpan</button>
+											<button type="submit" class="btn btn-primary">Ok</button>
 											</form>
 										</div>
 									</div>
@@ -76,6 +58,7 @@
 										<th>No</th>
 										<th>Faktur Pembelian</th>
                                         <th>Tanggal</th>
+										<th>Suplier</th>
                                         <th>Action</th>
 									</tr>
 								</thead>
@@ -88,6 +71,7 @@
 										<td><?=$no++?></td>
 										<td><?=$data->faktur?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
+										<td><?=$data->nama?></td>
                                         <td align="center">
 										<a href="<?=base_url('pembelian/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>

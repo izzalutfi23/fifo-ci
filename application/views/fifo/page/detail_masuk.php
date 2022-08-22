@@ -3,6 +3,12 @@
 	<div class="content-wrapper">
 		<div class="page-header">
 			<h3 class="page-title">Detail Barang Masuk</h3>
+            <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+                <a onclick="return confirm('Pembelian akan dikonfirmasi')" href="<?= base_url('pembelian/konfirmasi/'.$this->uri->segment(3)) ?>" class="btn btn-success mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-check"></i>Konfirmasi</a>
+				<a href="<?= base_url('pembelian/pdf/'.$this->uri->segment(3)) ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
@@ -36,12 +42,12 @@
                                         <td><?=$data->jumlah?></td>
 										<td><?=$data->c2?></td>
 										<td><?=number_format($data->harga)?></td>
-                                        <td><?=number_format($data->harga*$data->jumlah)?></td>
+                                        <td><?=number_format($data->harga*($data->jumlah*$data->c2))?></td>
                                         <td align="center">
                                             <?php 
                                                 if($data->status == '0'){
                                             ?>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target=".tambah<?=$data->id?>">Konfirmasi</button>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target=".tambah<?=$data->id?>">Edit</button>
                                             <?php 
                                                 }else{
                                             ?>

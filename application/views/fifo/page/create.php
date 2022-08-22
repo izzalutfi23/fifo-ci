@@ -15,17 +15,17 @@
 								<div class="form-group col-md-6">
 									<label class="pt-3">No Faktur</label>
 									<input type="text" name="faktur" readonly value="<?=$faktur?>" class="form-control" placeholder="Masukkan jumlah kill">
+									<label class="pt-3">Barcode</label>
+									<input type="text" name="barcode" class="form-control" placeholder="Masukkan Barcode" id="barcode" onchange="autofill()">
 									<label class="pt-3">Nama Barang</label>
-									<select name="barang_id" class="form-control" required="required">
-										<option value="">Pilih Barang</option>
-										<?php 
-											foreach($produk as $barang){
-										?>
-											<option value="<?=$barang->id?>"><?=$barang->nama?></option>
-										<?php } ?>
-									</select>
+									<input type="hidden" name="barang_id" id="barang_id">
+									<input type="text" name="nama" class="form-control" required="required" id="nama" readonly="readonly">
 								</div>
 								<div class="form-group col-md-6">
+									<label class="pt-3">Retur Hari</label>
+									<input type="text" name="retur" class="form-control" required="required" id="retur" readonly="readonly">
+									<label class="pt-3">C2</label>
+									<input type="text" name="c2" class="form-control" required="required" id="c2" readonly="readonly">
                                     <label class="pt-3">Jumlah</label>
 									<input type="number" name="jumlah" class="form-control" placeholder="Masukkan jumlah">
 									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Tambahkan Keranjang">

@@ -48,7 +48,12 @@ class Pembelian extends CI_Controller {
         $this->load->view('fifo/_footer');
     }
 
-    public function create(){
+    public function before(){
+        $id = $this->input->post('suplier_id');
+        redirect('pembelian/create/'.$id);
+    }
+
+    public function create($id){
         $this->db->select('RIGHT(faktur,5) as kode', FALSE);
         $this->db->order_by('kode','DESC');    
         $this->db->limit(1);
@@ -62,14 +67,15 @@ class Pembelian extends CI_Controller {
             }
         $batas = str_pad($kode, 5, "0", STR_PAD_LEFT);    
         $faktur = "IN-".$batas;
-
-        $produk = $this->Mproduk->getProduk()->result();
+        $suplier = $this->db->get_where('suplier', ['id' => $id])->row();
+        $produk = $this->db->get_where('barang', ['suplier_id' => $id])->result();
         $cart = $this->Mpembelian->getCart()->result();
         $data = [
             'title' => 'Buat Pembelian | Fifo',
             'produk' => $produk,
             'cart' => $cart,
-            'faktur' => $faktur
+            'faktur' => $faktur,
+            'suplier' => $suplier
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/create_beli');
@@ -77,6 +83,7 @@ class Pembelian extends CI_Controller {
     }
 
     public function storeCart(){
+        $sid = $this->input->post('sid');
         $data = [
             'barang_id' => $this->input->post('barang_id'),
             'jumlah' => $this->input->post('jumlah'),
@@ -94,17 +101,18 @@ class Pembelian extends CI_Controller {
             ];
             $this->Mpembelian->updateCart($payload, $id_barang);
         }
-		redirect('pembelian/create');
+		redirect('pembelian/create/'.$sid);
     }
 
-    public function delcart($id){
+    public function delcart($id, $sid){
         $this->Mpembelian->delCart($id);
-        redirect('pembelian/create');
+        redirect('pembelian/create/'.$sid);
     }
 
     public function storeBeli(){
         $keluar = [
             'faktur' => $this->input->post('faktur'),
+            'suplier_id' => $this->input->post('sid'),
             'tgl' => $this->input->post('tanggal')
         ];
 		$this->Mpembelian->storePembelian($keluar);
@@ -140,38 +148,52 @@ class Pembelian extends CI_Controller {
     }
 
     public function store(){
-        $produk = $this->Mproduk->getById($this->input->post('barang_id'))->row();
-        $newStok = $produk->stok + $this->input->post('jumlah');
-        $dataProduk = [
-            'stok' => $newStok
-        ];
-        
-        $this->Mproduk->update($dataProduk, $this->input->post('barang_id'));
-        $arr = [
-            'jumlah' => $this->input->post('jumlah'),
-            'harga' => $this->input->post('harga')
-        ];
-        $saldo = [
-            'jumlah' => $this->input->post('jumlah'),
-            'harga' => $this->input->post('harga')
-        ];
-        $input = [
-            'barang_id' => $this->input->post('barang_id'),
-            'faktur' => $this->input->post('faktur'),
-            'tgl' => $this->input->post('tgl'),
-            'status' => '0',
-            'pembelian' => json_encode($arr),
-            'saldo' => json_encode($saldo),
-            'type' => 'pembelian'
-        ];
         $data = [
             'jumlah' => $this->input->post('jumlah'),
             'harga' => $this->input->post('harga'),
             'status' => '1'
         ];
         $this->Mpembelian->updateDetail($data, $this->input->post('id'));
-		$this->Mpembelian->store($input);
 		redirect('pembelian/detail/'.$this->input->post('pembelian_id'));
+    }
+
+    public function konfirmasi($id){
+        $details = $this->db->get_where('detail', ['pembelian_id' => $id, 'status' => '0'])->result();
+        $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
+        foreach($details as $detail){
+            $produk = $this->Mproduk->getById($detail->barang_id)->row();
+            $newStok = $produk->stok + $detail->jumlah;
+            $dataProduk = [
+                'stok' => $newStok
+            ];
+    
+            $arr = [
+                'jumlah' => $detail->jumlah,
+                'harga' => $detail->harga
+            ];
+            $saldo = [
+                'jumlah' => $detail->jumlah,
+                'harga' => $detail->harga
+            ];
+            $input = [
+                'barang_id' => $detail->barang_id,
+                'faktur' => $pembelian->faktur,
+                'tgl' => $pembelian->tgl,
+                'status' => '0',
+                'pembelian' => json_encode($arr),
+                'saldo' => json_encode($saldo),
+                'type' => 'pembelian'
+            ];
+            $data = [
+                'status' => '1'
+            ];
+            if($detail->status == '0'){
+                $this->Mproduk->update($dataProduk, $detail->barang_id);
+                $this->Mpembelian->store($input);
+            }
+            $this->Mpembelian->updateDetail($data, $detail->id);
+        }
+        redirect('pembelian/detail/'.$id);
     }
 
     public function delete($id){
@@ -179,20 +201,21 @@ class Pembelian extends CI_Controller {
 		redirect('suplier');
 	}
 
-    public function pdf(){
-        $pembelian = $this->Mpembelian->getPembelian()->result();
-        foreach($pembelian as $beli){
-            $beli->pembelian = json_decode($beli->pembelian);
-        }
+    public function pdf($id){
+        $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
+        $suplier = $this->db->get_where('suplier', ['id' => $pembelian->suplier_id])->row();
+        $beli = $this->Mpembelian->getByPembelian($pembelian->id)->result();
         $datas = [
-            'pembelian' => $pembelian
+            'pembelian' => $pembelian,
+            'suplier' => $suplier,
+            'beli' => $beli
         ];
         $this->load->library('pdf');
-        $file_pdf = 'laporan-barang-masuk.pdf';
+        $file_pdf = 'formulir-pembelian.pdf';
         $paper = 'A4';
         $orientation = "portrait";
         
-		$html = $this->load->view('fifo/page/pdf/pembelian',$datas, true);
+		$html = $this->load->view('fifo/page/pdf/detail_beli',$datas, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
 }

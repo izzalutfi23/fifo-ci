@@ -25,7 +25,6 @@
 										<th>Faktur</th>
 										<th>Toko</th>
 										<th>Tgl</th>
-										<th>Total</th>
 										<th width="12%">Action</th>
 									</tr>
 								</thead>
@@ -39,7 +38,6 @@
 										<td><?=$data->faktur?></td>
 										<td><?=$data->nama?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
-										<td>Rp <?=number_format($data->total)?></td>
 										<td align="center">
 											<a href="<?=base_url('keluar/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>

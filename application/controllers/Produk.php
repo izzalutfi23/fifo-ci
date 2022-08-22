@@ -102,4 +102,10 @@ class Produk extends CI_Controller {
 		$html = $this->load->view('fifo/page/pdf/produk',$datas, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
+
+    public function cari(){
+        $barcode=$_GET['barcode'];
+        $cari =$this->db->get_where('barang', ['barcode' => $barcode])->result();
+        echo json_encode($cari);
+    } 
 }

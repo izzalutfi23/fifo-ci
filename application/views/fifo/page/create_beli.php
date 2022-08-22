@@ -14,8 +14,13 @@
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label class="pt-3">No Faktur</label>
+                                    <input type="hidden" name="sid" value="<?= $this->uri->segment(3) ?>">
 									<input type="text" name="faktur" readonly value="<?=$faktur?>" class="form-control" placeholder="Masukkan jumlah kill">
-									<label class="pt-3">Nama Barang</label>
+                                    <label class="pt-3">Suplier</label>
+									<input type="text" name="sup" class="form-control" value="<?=$suplier->nama?>" readonly="readonly">
+                                </div>
+								<div class="form-group col-md-6">
+                                    <label class="pt-3">Nama Barang</label>
 									<select name="barang_id" class="form-control" required="required">
 										<option value="">Pilih Barang</option>
 										<?php 
@@ -24,8 +29,6 @@
 											<option value="<?=$barang->id?>"><?=$barang->nama?></option>
 										<?php } ?>
 									</select>
-								</div>
-								<div class="form-group col-md-6">
                                     <label class="pt-3">Jumlah</label>
 									<input type="number" name="jumlah" class="form-control" placeholder="Masukkan jumlah">
                                     <label class="pt-3">Harga Satuan</label>
@@ -65,7 +68,7 @@
 										<td>Rp <?=number_format($data->jumlah * $data->harga)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"
-												href="<?=base_url('pembelian/delcart/'.$data->barang_id)?>">
+												href="<?=base_url('pembelian/delcart/'.$data->barang_id.'/'.$this->uri->segment(3))?>">
 												<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 											</a>
 										</td>
@@ -91,6 +94,7 @@
 									<!-- <label class="pt-3">Tanggal</label> -->
 									<input type="hidden" name="total" value="<?=$total?>">
 									<input type="hidden" name="faktur" value="<?=$faktur?>">
+                                    <input type="hidden" name="sid" value="<?= $this->uri->segment(3) ?>">
 									<input type="hidden" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
 								</div>
 								<div class="form-group col-md-6">

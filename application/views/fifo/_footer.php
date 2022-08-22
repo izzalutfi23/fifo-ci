@@ -47,6 +47,26 @@
 		});
 	});
 
+	function autofill(){
+        var barcode = document.getElementById('barcode').value;
+        $.ajax({
+			url:"<?= base_url('produk/cari') ?>",
+			data:'&barcode='+barcode,
+			success:function(data){
+				var hasil = JSON.parse(data);  
+						
+				$.each(hasil, function(key,val){      
+					document.getElementById('barcode').value=val.barcode;
+					document.getElementById('barang_id').value=val.id;
+					document.getElementById('nama').value=val.nama;
+					document.getElementById('retur').value=val.retur;
+					document.getElementById('c2').value=val.c2;
+				});
+            }
+        });
+                   
+    }
+
 </script>
 </body>
 

@@ -4,7 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mpembelian extends CI_Model {
 	
     public function getPembelian(){
-        return $this->db->get('pembelian');
+        $this->db->select('p.*, s.nama');
+        $this->db->join('suplier as s', 's.id=p.suplier_id');
+        return $this->db->get('pembelian as p');
     }
 
     public function store($data){
@@ -60,6 +62,13 @@ class Mpembelian extends CI_Model {
         $this->db->select('d.*, b.kode_barang, b.barcode, b.nama, b.c2, b.stok, b.umur, b.retur');
         $this->db->join('barang as b', 'b.id=d.barang_id');
         $this->db->where('d.pembelian_id', $id);
+        return $this->db->get('detail as d');
+    }
+
+    public function getByPembelian1($id){
+        $this->db->select('d.*, b.kode_barang, b.barcode, b.suplier_id, b.nama, b.c2, b.stok, b.umur, b.retur');
+        $this->db->join('barang as b', 'b.id=d.barang_id');
+        $this->db->where('d.id', $id);
         return $this->db->get('detail as d');
     }
 

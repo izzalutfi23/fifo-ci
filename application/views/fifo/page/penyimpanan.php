@@ -31,19 +31,40 @@
 											<form action="<?=base_url('penyimpanan/store')?>" method="post">
 												<div class="row">
 													<div class="form-group col-md-12">
-														<label class="pt-3">Produk</label>
-														<select name="barang_id" class="form-control" required="required">
-                                                            <option value="">Pilih Produk</option>
+                                                        <label class="pt-3">Tgl</label>
+														<input required="required" type="date" name="tgl" value="<?=date('Y-m-d')?>" class="form-control">
+														<label class="pt-3">Line</label>
+														<select name="line" required="required" class="form-control">
+                                                            <option value="">Pilih Line</option>
                                                             <?php
-                                                                foreach($produk as $prod){
+                                                                $line = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+                                                                for($i=0; $i<15; $i++){
                                                             ?>
-                                                            <option value="<?=$prod->id?>"><?=$prod->nama?></option>
+                                                            <option value="<?=$line[$i]?>"><?=$line[$i]?></option>
                                                             <?php } ?>
                                                         </select>
-														<label class="pt-3">Tgl</label>
-														<input required="required" type="date" name="tgl" value="<?=date('Y-m-d')?>" class="form-control">
+                                                        <label class="pt-3">Rak</label>
+														<select name="rak" required="required" class="form-control">
+                                                            <option value="">Pilih Rak</option>
+                                                            <?php 
+                                                                for($x=1; $x<=30; $x++){
+                                                            ?>
+                                                            <option value="<?=$x?>"><?=$x?></option>
+                                                            <?php } ?>
+                                                        </select>
+                                                        <label class="pt-3">Barcode</label>
+                                                        <input type="text" name="barcode" class="form-control" placeholder="Masukkan Barcode" id="barcode" onchange="autofill()">
+                                                        <label class="pt-3">Nama Barang</label>
+                                                        <input type="hidden" name="barang_id" id="barang_id">
+                                                        <input type="text" name="nama" class="form-control" required="required" id="nama" readonly="readonly">
+                                                        <label class="pt-3">Retur Hari</label>
+                                                        <input type="text" name="retur" class="form-control" required="required" id="retur" readonly="readonly">
+                                                        <label class="pt-3">C2</label>
+                                                        <input type="text" name="c2" class="form-control" required="required" id="c2" readonly="readonly">
 														<label class="pt-3">Jumlah (Qty)</label>
 														<input required="required" type="number" name="jumlah" class="form-control" placeholder="Masukkan email">
+                                                        <label class="pt-3">Expire Date</label>
+														<input required="required" type="date" name="expire_date" class="form-control" placeholder="Masukkan tgl expired">
 													</div>
 												</div>
 										</div>
@@ -60,10 +81,13 @@
 									<tr>
 										<th>No</th>
 										<th>Nama Barang</th>
+                                        <th>Rak</th>
+                                        <th>Line</th>
                                         <th>C2</th>
                                         <th>Retur Hari</th>
                                         <th>Tanggal Penyimpanan</th>
 										<th>Jumlah</th>
+                                        <th>Expire Date</th>
 										<th width="12%">Action</th>
 									</tr>
 								</thead>
@@ -75,10 +99,13 @@
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->nama?></td>
+                                        <td><?=$data->rak?></td>
+                                        <td><?=$data->line?></td>
                                         <td><?=$data->c2?></td>
                                         <td><?=$data->retur?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td><?=$data->jumlah?></td>
+                                        <td><?=date('d M Y', strtotime($data->expire_date))?></td>
 										<td>
                                             <a onclick="return confirm('Data akan dihapus!')"
 												href="<?=base_url('penyimpanan/delete/'.$data->id)?>">

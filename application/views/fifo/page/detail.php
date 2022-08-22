@@ -37,7 +37,7 @@
                                         <td><?=$data->hpp->jumlah?></td>
 										<td><?=$data->c2?></td>
 										<td><?=number_format($data->hpp->harga)?></td>
-                                        <td><?=number_format($data->hpp->harga*$data->hpp->jumlah)?></td>
+                                        <td><?=number_format($data->hpp->harga*($data->hpp->jumlah*$data->c2))?></td>
 									</tr>
 									<?php } ?>
 							</table>
