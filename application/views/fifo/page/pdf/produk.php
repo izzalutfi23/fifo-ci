@@ -78,7 +78,7 @@
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->barcode?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->nama?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->c2?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->stok?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->stok*$data->c2)?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->umur?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->retur?></td>
                 <td style="border: 1px solid #000; padding: 5px;">Rp <?=number_format($data->harga)?></td>

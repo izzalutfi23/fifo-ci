@@ -6,9 +6,43 @@
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 				<a href="<?=base_url('keluar/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
-                <a href="<?=base_url('keluar/create')?>" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
+                <button data-toggle="modal" data-target=".tambah" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text">
 					<i class="mdi mdi-plus-circle"></i>Barang Keluar
-                </a>
+				</button>
+			</div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade tambah" tabindex="-1" role="dialog"
+			aria-labelledby="myLargeModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-fade">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLongTitle">Pilih Toko Terlebih Dahulu</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<form action="<?=base_url('keluar/before')?>" method="post">
+							<div class="row">
+								<div class="form-group col-md-12">
+									<label class="pt-3">Pilih Toko</label>
+									<select class="form-control" required="required" name="toko_id">
+										<option value="">Pilih Toko</option>
+										<?php 
+											foreach($toko as $dtoko){
+										?>
+										<option value="<?=$dtoko->id?>"><?=$dtoko->nama?></option>
+										<?php } ?>
+									</select>
+								</div>
+							</div>
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="btn btn-primary">Ok</button>
+						</form>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="row">

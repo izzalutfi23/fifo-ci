@@ -45,28 +45,28 @@
 										$sisaMin = 0;
 										$tkeluar = 0;
 										foreach($laporan as $data){
-										$stokPlus += $data->type == 'pembelian' ? $data->pembelian->jumlah : 0;
-										$stokPlus += $data->type == 'awal' ? $data->saldo->jumlah : 0;
-										$stokMin += $data->type == 'penjualan' ? $data->hpp->jumlah : 0;
+										$stokPlus += $data->type == 'pembelian' ? $data->pembelian->jumlah*$barang->c2 : 0;
+										$stokPlus += $data->type == 'awal' ? $data->saldo->jumlah*$barang->c2 : 0;
+										$stokMin += $data->type == 'penjualan' ? $data->hpp->jumlah*$barang->c2 : 0;
 
-										$sisaPlus += $data->type == 'pembelian' ? $data->saldo->jumlah * $data->saldo->harga : 0;
-										$sisaPlus += $data->type == 'awal' ? $data->saldo->jumlah * $data->saldo->harga : 0;
-										$sisaMin += $data->type == 'penjualan' ? $data->saldo->jumlah * $data->saldo->harga : 0;
+										$sisaPlus += $data->type == 'pembelian' ? ($data->saldo->jumlah*$barang->c2) * $data->saldo->harga : 0;
+										$sisaPlus += $data->type == 'awal' ? ($data->saldo->jumlah*$barang->c2) * $data->saldo->harga : 0;
+										$sisaMin += $data->type == 'penjualan' ? ($data->saldo->jumlah*$barang->c2) * $data->saldo->harga : 0;
 
-										$tkeluar += $data->type == 'penjualan' ? $data->hpp->harga * $data->hpp->jumlah : 0;
+										$tkeluar += $data->type == 'penjualan' ? $data->hpp->harga * ($data->hpp->jumlah*$barang->c2) : 0;
 									?>
 									<tr>
                                         <td><?=date('d M Y', strtotime($data->tgl))?></td>
                                         <td><?=$data->faktur?></td>
-                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->jumlah) : 0?></td>
+                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->jumlah*$barang->c2) : 0?></td>
                                         <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga) : 0?></td>
-                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga * $data->pembelian->jumlah) : 0?></td>
-                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah) : 0?></td>
+                                        <td align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga * ($data->pembelian->jumlah*$barang->c2)) : 0?></td>
+                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah*$barang->c2) : 0?></td>
                                         <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga) : 0?></td>
-                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * $data->hpp->jumlah) : 0?></td>
-                                        <td align="right"><?=number_format($data->saldo->jumlah)?></td>
+                                        <td align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * ($data->hpp->jumlah*$barang->c2)) : 0?></td>
+                                        <td align="right"><?=number_format($data->saldo->jumlah*$barang->c2)?></td>
                                         <td align="right"><?=number_format($data->saldo->harga)?></td>
-                                        <td align="right"><?=number_format($data->saldo->jumlah * $data->saldo->harga)?></td>
+                                        <td align="right"><?=number_format(($data->saldo->jumlah*$barang->c2) * $data->saldo->harga)?></td>
                                     </tr>
 									<?php } ?>
 								</tbody>
@@ -91,17 +91,25 @@
 									<th>Stok</th>
 								</tr>
 								<?php 
+									if($barang->qty > 0){
+								?>
+								<tr>
+									<td align="right">Rp <?=number_format($barang->harga)?></td>
+									<td align="right"><?=number_format($barang->qty*$barang->c2)?></td>
+								</tr>
+								<?php
+									} 
 									foreach($transaksi as $trx){
 									if($trx->id == $barang->trx_id){
 								?>
 								<tr>
 									<td align="right">Rp <?=number_format($barang->harga)?></td>
-									<td align="right"><?=number_format($barang->qty)?></td>
+									<td align="right"><?=number_format($barang->qty*$barang->c2)?></td>
 								</tr>
 								<?php }else{ ?>
 								<tr>
 									<td align="right">Rp <?=number_format($trx->pembelian->harga)?></td>
-									<td align="right"><?=number_format($trx->pembelian->jumlah)?></td>
+									<td align="right"><?=number_format($trx->pembelian->jumlah*$barang->c2)?></td>
 								</tr>
 								<?php }} ?>
 							</table>

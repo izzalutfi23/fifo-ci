@@ -83,28 +83,28 @@
                 $sisaMin = 0;
                 $tkeluar = 0;
                 foreach($laporan as $data){
-                $stokPlus += $data->type == 'pembelian' ? $data->pembelian->jumlah : 0;
-                $stokPlus += $data->type == 'awal' ? $data->saldo->jumlah : 0;
-                $stokMin += $data->type == 'penjualan' ? $data->hpp->jumlah : 0;
+                $stokPlus += $data->type == 'pembelian' ? $data->pembelian->jumlah*$barang->c2 : 0;
+                $stokPlus += $data->type == 'awal' ? $data->saldo->jumlah*$barang->c2 : 0;
+                $stokMin += $data->type == 'penjualan' ? $data->hpp->jumlah*$barang->c2 : 0;
 
                 $sisaPlus += $data->type == 'pembelian' ? $data->saldo->jumlah * $data->saldo->harga : 0;
                 $sisaPlus += $data->type == 'awal' ? $data->saldo->jumlah * $data->saldo->harga : 0;
                 $sisaMin += $data->type == 'penjualan' ? $data->saldo->jumlah * $data->saldo->harga : 0;
 
-                $tkeluar += $data->type == 'penjualan' ? $data->hpp->harga * $data->hpp->jumlah : 0;
+                $tkeluar += $data->type == 'penjualan' ? $data->hpp->harga * ($data->hpp->jumlah*$barang->c2) : 0;
             ?>
             <tr>
                 <td style="border: 1px solid #000; padding: 5px;"><?=date('d M Y', strtotime($data->tgl))?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->faktur?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->jumlah) : 0?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->jumlah*$barang->c2) : 0?></td>
                 <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga) : 0?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga * $data->pembelian->jumlah) : 0?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah) : 0?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'pembelian' ? number_format($data->pembelian->harga * ($data->pembelian->jumlah*$barang->c2)) : 0?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->jumlah*$barang->c2) : 0?></td>
                 <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga) : 0?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * $data->hpp->jumlah) : 0?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($data->saldo->jumlah)?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$data->type == 'penjualan' ? number_format($data->hpp->harga * ($data->hpp->jumlah*$barang->c2)) : 0?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($data->saldo->jumlah*$barang->c2)?></td>
                 <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($data->saldo->harga)?></td>
-                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($data->saldo->jumlah * $data->saldo->harga)?></td>
+                <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format(($data->saldo->jumlah*$barang->c2) * $data->saldo->harga)?></td>
             </tr>
             <?php } ?>
             <tr>

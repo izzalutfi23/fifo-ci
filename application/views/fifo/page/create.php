@@ -13,21 +13,24 @@
 						<form action="<?=base_url('keluar/storeCart')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">
-									<label class="pt-3">No Faktur</label>
-									<input type="text" name="faktur" readonly value="<?=$faktur?>" class="form-control" placeholder="Masukkan jumlah kill">
 									<label class="pt-3">Barcode</label>
-									<input type="text" name="barcode" class="form-control" placeholder="Masukkan Barcode" id="barcode" onchange="autofill()">
+									<input type="text" required name="barcode" class="form-control" placeholder="Masukkan Barcode" id="barcode" onchange="autofill()">
 									<label class="pt-3">Nama Barang</label>
 									<input type="hidden" name="barang_id" id="barang_id">
 									<input type="text" name="nama" class="form-control" required="required" id="nama" readonly="readonly">
-								</div>
-								<div class="form-group col-md-6">
 									<label class="pt-3">Retur Hari</label>
 									<input type="text" name="retur" class="form-control" required="required" id="retur" readonly="readonly">
 									<label class="pt-3">C2</label>
 									<input type="text" name="c2" class="form-control" required="required" id="c2" readonly="readonly">
+								</div>
+								<div class="form-group col-md-6">
+									<label class="pt-3">No Faktur</label>
+									<input type="text" name="faktur" readonly value="<?=$faktur?>" class="form-control" placeholder="Masukkan jumlah kill">
+									<label class="pt-3">Toko</label>
+									<input type="hidden" name="toko_id" value="<?=$toko->id?>">
+									<input type="text" name="toko" readonly value="<?=$toko->nama.' ('.$toko->kode.')'?>" class="form-control" placeholder="Masukkan jumlah kill">
                                     <label class="pt-3">Jumlah</label>
-									<input type="number" name="jumlah" class="form-control" placeholder="Masukkan jumlah">
+									<input type="number" required name="jumlah" class="form-control" placeholder="Masukkan jumlah">
 									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Tambahkan Keranjang">
 								</div>
 							</div>
@@ -42,6 +45,9 @@
 									<tr>
 										<th>No</th>
 										<th>Nama Barang</th>
+										<th>Barcode</th>
+										<th>Retur</th>
+										<th>C2</th>
 										<th>Harga Satuan</th>
 										<th>Jumlah</th>
 										<th>Subtotal</th>
@@ -53,17 +59,20 @@
                                         $no=1;
 										$total = 0;
                                         foreach($cart as $data){
-										$total += $data->jumlah * $data->harga;
+										$total += ($data->jumlah*$data->c2) * $data->harga;
                                     ?>
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->nama?></td>
+										<td><?=$data->barcode?></td>
+										<td><?=$data->retur?></td>
+										<td><?=$data->c2?></td>
 										<td>Rp <?=number_format($data->harga)?></td>
-										<td><?=$data->jumlah?></td>
-										<td>Rp <?=number_format($data->jumlah * $data->harga)?></td>
+										<td><?=$data->jumlah*$data->c2?></td>
+										<td>Rp <?=number_format(($data->jumlah*$data->c2) * $data->harga)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"
-												href="<?=base_url('keluar/delcart/'.$data->barang_id)?>">
+												href="<?=base_url('keluar/delcart/'.$data->barang_id.'/'.$this->uri->segment(3))?>">
 												<button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
 											</a>
 										</td>
@@ -72,7 +81,7 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<td colspan="4">Total</td>
+										<td colspan="7">Total</td>
 										<td colspan="2">Rp <?=number_format($total)?></td>
 									</tr>
 								</tfoot>
@@ -82,22 +91,11 @@
 					<div class="card-body">
 						<form action="<?=base_url('keluar/store')?>" method="post">
 							<div class="row">
-							<div class="form-group col-md-6">
-									<label class="pt-3">Pilih Toko</label>
-									<select class="form-control" required="required" name="toko_id">
-										<option value="">Pilih Toko</option>
-										<?php 
-											foreach($toko as $dtoko){
-										?>
-										<option value="<?=$dtoko->id?>"><?=$dtoko->nama?></option>
-										<?php } ?>
-									</select>
-								</div>
 								<div class="form-group col-md-6">
-									<label class="pt-3">Tanggal</label>
+									<input type="hidden" name="toko_id" value="<?=$toko->id?>">
 									<input type="hidden" name="total" value="<?=$total?>">
 									<input type="hidden" name="faktur" value="<?=$faktur?>">
-									<input type="date" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
+									<input type="hidden" name="tanggal" value="<?=date('Y-m-d')?>" required="required" class="form-control">
 								</div>
 								<div class="form-group col-md-6">
 									<input type="submit" class="btn btn-primary form-control" style="margin-top: 37px;" value="Simpan Barang Keluar">

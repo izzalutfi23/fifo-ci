@@ -99,7 +99,7 @@
 										<td><?=$data->barcode?></td>
 										<td><?=$data->nama?></td>
 										<td><?=$data->c2?></td>
-										<td><?=$data->stok?></td>
+										<td><?=number_format($data->stok*$data->c2)?></td>
 										<td><?=$data->umur?></td>
 										<td><?=$data->retur?></td>
 										<td>Rp <?=number_format($data->harga)?></td>

@@ -20,16 +20,23 @@ class Keluar extends CI_Controller {
 
     public function index(){
 		$penjualan = $this->Mkeluar->getPenjualan()->result();
+        $toko = $this->Mtoko->getToko()->result();
         $data = [
             'title' => 'Barang Keluar | Fifo',
-			'penjualan' => $penjualan
+			'penjualan' => $penjualan,
+            'toko' => $toko
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/keluar');
         $this->load->view('fifo/_footer');
     }
 
-    public function create(){
+    public function before(){
+        $id = $this->input->post('toko_id');
+        redirect('keluar/create/'.$id);
+    }
+
+    public function create($id){
         $this->db->select('RIGHT(faktur,5) as kode', FALSE);
         $this->db->order_by('kode','DESC');    
         $this->db->limit(1);
@@ -45,7 +52,7 @@ class Keluar extends CI_Controller {
         $faktur = "OUT-".$batas;
 		$cart = $this->Mkeluar->getCart()->result();
         $produk = $this->Mproduk->getProduk()->result();
-        $toko = $this->Mtoko->getToko()->result();
+        $toko = $this->db->get_where('toko', ['id' => $id])->row();
         $data = [
             'title' => 'Tambah Barang Keluar | Fifo',
 			'cart' => $cart,
@@ -89,12 +96,12 @@ class Keluar extends CI_Controller {
             ];
             $this->Mkeluar->updateCart($payload, $id_barang);
         }
-		redirect('keluar/create');
+		redirect('keluar/create/'.$this->input->post('toko_id'));
     }
 
-    public function delcart($id){
+    public function delcart($id, $toko){
         $this->Mkeluar->delCart($id);
-        redirect('keluar/create');
+        redirect('keluar/create/'.$toko);
     }
 
     public function store(){

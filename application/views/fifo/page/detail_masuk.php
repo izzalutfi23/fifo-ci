@@ -4,8 +4,6 @@
 		<div class="page-header">
 			<h3 class="page-title">Detail Barang Masuk</h3>
             <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
-                <a onclick="return confirm('Pembelian akan dikonfirmasi')" href="<?= base_url('pembelian/konfirmasi/'.$this->uri->segment(3)) ?>" class="btn btn-success mt-2 mt-sm-0 btn-icon-text mr-2">
-					<i class="mdi mdi-check"></i>Konfirmasi</a>
 				<a href="<?= base_url('pembelian/pdf/'.$this->uri->segment(3)) ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
 			</div>
@@ -22,6 +20,11 @@
 									<tr>
 										<th>No</th>
 										<th>Faktur</th>
+                                        <th>Kode Suplier</th>
+                                        <th>Suplier</th>
+                                        <th>Tgl Pemesanan</th>
+                                        <th>Kode Barang</th>
+                                        <th>Retur</th>
 										<th>Nama Barang</th>
 										<th>Jumlah</th>
 										<th>C2</th>
@@ -38,7 +41,12 @@
 									<tr>
 										<td><?=$no++?></td>
 										<td><?=$data->faktur?></td>
-										<td><?=$data->nama?></td>
+                                        <td><?=$suplier->kode?></td>
+                                        <td><?=$suplier->nama?></td>
+                                        <td><?=date('d M Y', strtotime($pembelian->tgl))?></td>
+										<td><?=$data->kode_barang?></td>
+                                        <td><?=$data->retur?></td>
+                                        <td><?=$data->nama?></td>
                                         <td><?=$data->jumlah?></td>
 										<td><?=$data->c2?></td>
 										<td><?=number_format($data->harga)?></td>

@@ -137,10 +137,12 @@ class Pembelian extends CI_Controller {
     public function detail($id){
         $detail = $this->Mpembelian->getByPembelian($id)->result();
         $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
+        $suplier = $this->db->get_where('suplier', ['id' => $pembelian->suplier_id])->row();
         $data = [
             'title' => 'Detail Barang Keluar | Fifo',
             'detail' => $detail,
-            'pembelian' => $pembelian
+            'pembelian' => $pembelian,
+            'suplier' => $suplier
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/detail_masuk');

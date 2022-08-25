@@ -31,7 +31,7 @@
 											<form action="<?=base_url('penyimpanan/store')?>" method="post">
 												<div class="row">
 													<div class="form-group col-md-12">
-                                                        <label class="pt-3">Tgl</label>
+                                                        <label class="pt-3">Tgl Penyimapanan</label>
 														<input required="required" type="date" name="tgl" value="<?=date('Y-m-d')?>" class="form-control">
 														<label class="pt-3">Line</label>
 														<select name="line" required="required" class="form-control">

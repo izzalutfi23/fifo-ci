@@ -18,7 +18,7 @@ class Mpembelian extends CI_Model {
     }
 
     public function getCart(){
-        $this->db->select('c.*, b.nama');
+        $this->db->select('c.*, b.nama, b.c2, b.barcode, b.retur');
         $this->db->join('barang as b', 'b.id=c.barang_id');
         return $this->db->get('cart as c');
     }
