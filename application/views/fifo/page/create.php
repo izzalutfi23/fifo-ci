@@ -46,6 +46,7 @@
 										<th>No</th>
 										<th>Nama Barang</th>
 										<th>Barcode</th>
+										<th>Kode Barang</th>
 										<th>Retur</th>
 										<th>C2</th>
 										<th>Harga Satuan</th>
@@ -65,6 +66,7 @@
 										<td><?=$no++?></td>
 										<td><?=$data->nama?></td>
 										<td><?=$data->barcode?></td>
+										<td><?=$data->kode_barang?></td>
 										<td><?=$data->retur?></td>
 										<td><?=$data->c2?></td>
 										<td>Rp <?=number_format($data->harga)?></td>

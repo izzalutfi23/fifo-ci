@@ -18,10 +18,11 @@
 										<th>Faktur</th>
 										<th>Nama Barang</th>
                                         <th>Tanggal</th>
-										<th>Jumlah</th>
 										<th>C2</th>
 										<th>Harga Satuan</th>
+                                        <th>Jumlah</th>
                                         <th>Total</th>
+                                        <th>Aksi</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -31,14 +32,62 @@
                                     ?>
 									<tr>
 										<td><?=$no++?></td>
-										<td><?=$data->faktur?></td>
+										<td><?=$penjualan->faktur?></td>
 										<td><?=$data->barang?></td>
-										<td><?=date('d M Y', strtotime($data->tgl))?></td>
-                                        <td><?=$data->hpp->jumlah?></td>
+										<td><?=date('d M Y', strtotime($penjualan->tgl))?></td>
 										<td><?=$data->c2?></td>
-										<td><?=number_format($data->hpp->harga)?></td>
-                                        <td><?=number_format($data->hpp->harga*($data->hpp->jumlah*$data->c2))?></td>
+										<td><?=number_format($data->harga)?></td>
+                                        <td><?=$data->jumlah*$data->c2?></td>
+                                        <td><?=number_format($data->harga*($data->jumlah*$data->c2))?></td>
+                                        <td align="center">
+                                            <?php 
+                                                if($data->status == '0'){
+                                            ?>
+                                            <button class="btn btn-primary" data-toggle="modal" data-target=".tambah<?=$data->id?>">Edit</button>
+                                            <?php 
+                                                }else{
+                                            ?>
+                                            <button class="btn btn-success"><i class="fa fa-check"></i></button>
+                                            <?php } ?>
+                                        </td>
 									</tr>
+                                    <!-- Modal -->
+                                    <div class="modal fade tambah<?=$data->id?>" tabindex="-1" role="dialog"
+                                        aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-fade">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Konfirmasi Barang Masuk</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="<?=base_url('keluar/update')?>" method="post">
+                                                        <div class="row">
+                                                            <div class="form-group col-md-12">
+                                                                <label class="pt-3">Produk</label>
+                                                                <input type="hidden" name="barang_id" value="<?=$data->barang_id?>">
+                                                                <input type="hidden" name="faktur" value="<?=$penjualan->faktur?>">
+                                                                <input type="hidden" name="tgl" value="<?=$penjualan->tgl?>">
+                                                                <input type="hidden" name="penjualan_id" value="<?=$penjualan->id?>">
+                                                                <input type="hidden" name="id" value="<?=$data->id?>">
+                                                                <input type="text" class="form-control" name="" value="<?=$data->barang?>" readonly="readonly">
+                                                                <label class="pt-3">C2</label>
+                                                                <input required="required" type="number" name="c22" readonly class="form-control" value="<?=$data->c2?>">
+                                                                <label class="pt-3">Jumlah (Qty)</label>
+                                                                <input required="required" type="number" name="jumlah" class="form-control" value="<?=$data->jumlah?>">
+                                                            </div>
+                                                        </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal End -->
 									<?php } ?>
 							</table>
 						</div>

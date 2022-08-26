@@ -73,6 +73,12 @@
 										<td><?=$data->nama?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td align="center">
+											<?php 
+												if($data->jml > 0){
+											?>
+											<a onclick="return confirm('Barang keluar akan dikonfirmasi')" href="<?= base_url('keluar/confirm/'.$data->id) ?>" class="btn btn-success btn-sm">
+											<i class="mdi mdi-check"></i>Konfirmasi</a>
+											<?php } ?>
 											<a href="<?=base_url('keluar/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
 											</a>

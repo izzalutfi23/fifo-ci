@@ -20,6 +20,10 @@ class Keluar extends CI_Controller {
 
     public function index(){
 		$penjualan = $this->Mkeluar->getPenjualan()->result();
+        foreach($penjualan as $j){
+            $detail = $this->db->get_where('detail_keluar', ['penjualan_id' => $j->id, 'status' => '0'])->result();
+            $j->jml = count($detail);
+        }
         $toko = $this->Mtoko->getToko()->result();
         $data = [
             'title' => 'Barang Keluar | Fifo',
@@ -67,12 +71,11 @@ class Keluar extends CI_Controller {
 
     public function detail($id){
         $detail = $this->Mkeluar->getByPenjualan($id)->result();
-        foreach($detail as $beli){
-            $beli->hpp = json_decode($beli->hpp);
-        }
+        $penjualan = $this->db->get_where('penjualan', ['id' => $id])->row();
         $data = [
             'title' => 'Detail Barang Keluar | Fifo',
-            'detail' => $detail
+            'detail' => $detail,
+            'penjualan' => $penjualan
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/detail');
@@ -116,6 +119,31 @@ class Keluar extends CI_Controller {
         $carts = $this->Mkeluar->getCart()->result();
         foreach($carts as $cart){
             $produk = $this->Mproduk->getById($cart->barang_id)->row();
+            $data = [
+                'penjualan_id' => $last_id,
+                'barang_id' => $cart->barang_id,
+                'jumlah' => $cart->jumlah,
+                'status' => '0'
+            ];
+            $this->Mkeluar->storeDetail($data);
+        }
+        $this->Mkeluar->deleteCart();
+		redirect('keluar');
+    }
+
+    public function update(){
+        $data = [
+            'jumlah' => $this->input->post('jumlah')
+        ];
+        $this->Mkeluar->updateDetail($data, $this->input->post('id'));
+        redirect('keluar/detail/'.$this->input->post('penjualan_id'));
+    }
+
+    public function confirm($id){
+        $carts = $this->db->get_where('detail_keluar', ['penjualan_id' => $id])->result();
+        $penjualan = $this->db->get_where('penjualan', ['id' => $id])->row();
+        foreach($carts as $cart){
+            $produk = $this->Mproduk->getById($cart->barang_id)->row();
             if($produk->stok >= $cart->jumlah){
                 if($produk->qty < $cart->jumlah){
                     // Create Trx
@@ -129,9 +157,9 @@ class Keluar extends CI_Controller {
                     ];
                     $input = [
                         'barang_id' => $cart->barang_id,
-                        'penjualan_id' => $last_id,
-                        'faktur' => $this->input->post('faktur'),
-                        'tgl' => $this->input->post('tanggal'),
+                        'penjualan_id' => $id,
+                        'faktur' => $penjualan->faktur,
+                        'tgl' => $penjualan->tgl,
                         'status' => '0',
                         'hpp' => json_encode($arr),
                         'saldo' => json_encode($saldo),
@@ -164,9 +192,9 @@ class Keluar extends CI_Controller {
                     ];
                     $input2 = [
                         'barang_id' => $cart->barang_id,
-                        'penjualan_id' => $last_id,
-                        'faktur' => $this->input->post('faktur'),
-                        'tgl' => $this->input->post('tanggal'),
+                        'penjualan_id' => $id,
+                        'faktur' => $penjualan->faktur,
+                        'tgl' => $penjualan->tgl,
                         'status' => '0',
                         'hpp' => json_encode($arr2),
                         'saldo' => json_encode($saldo2),
@@ -193,9 +221,9 @@ class Keluar extends CI_Controller {
                     ];
                     $input = [
                         'barang_id' => $cart->barang_id,
-                        'penjualan_id' => $last_id,
-                        'faktur' => $this->input->post('faktur'),
-                        'tgl' => $this->input->post('tanggal'),
+                        'penjualan_id' => $id,
+                        'faktur' => $penjualan->faktur,
+                        'tgl' => $penjualan->tgl,
                         'status' => '0',
                         'hpp' => json_encode($arr),
                         'saldo' => json_encode($saldo),
@@ -228,9 +256,9 @@ class Keluar extends CI_Controller {
                     ];
                     $input = [
                         'barang_id' => $cart->barang_id,
-                        'penjualan_id' => $last_id,
-                        'faktur' => $this->input->post('faktur'),
-                        'tgl' => $this->input->post('tanggal'),
+                        'penjualan_id' => $id,
+                        'faktur' => $penjualan->faktur,
+                        'tgl' => $penjualan->tgl,
                         'status' => '0',
                         'hpp' => json_encode($arr),
                         'saldo' => json_encode($saldo),
@@ -247,9 +275,12 @@ class Keluar extends CI_Controller {
                     $this->Mpembelian->store($input);
                 }
             }
+            $data = [
+                'status' => '1'
+            ];
+            $this->Mkeluar->updateDetail($data, $cart->id);
         }
-        $this->Mkeluar->deleteCart();
-		redirect('keluar');
+        redirect('keluar/detail/'.$id);
     }
 
     public function delete($id){

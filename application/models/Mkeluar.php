@@ -15,9 +15,9 @@ class Mkeluar extends CI_Model {
 
     public function getByPenjualan($id){
         $this->db->where('t.penjualan_id', $id);
-        $this->db->select('t.id, b.nama as barang, b.c2, t.tgl, t.hpp, t.status, t.faktur, t.type');
+        $this->db->select('t.id, b.nama as barang, b.harga, b.c2, t.status, t.jumlah, t.barang_id');
         $this->db->join('barang as b', 'b.id=t.barang_id', 'left');
-        return $this->db->get('transaksi as t');
+        return $this->db->get('detail_keluar as t');
     }
 
     public function getByProduk($id){
@@ -53,6 +53,14 @@ class Mkeluar extends CI_Model {
 
     public function storeCart($data){
         $this->db->insert('keranjang', $data);
+    }
+
+    public function storeDetail($data){
+        $this->db->insert('detail_keluar', $data);
+    }
+
+    public function updateDetail($data, $id){
+        $this->db->update('detail_keluar', $data, ['id'=>$id]);
     }
 
     public function storePenjualan($data){
