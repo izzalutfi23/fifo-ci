@@ -13,8 +13,8 @@
 						<form action="<?=base_url('keluar/storeCart')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">
-									<label class="pt-3">Barcode</label>
-									<input type="text" required name="barcode" class="form-control" placeholder="Masukkan Barcode" id="barcode" onchange="autofill()">
+									<label class="pt-3">Kode Barang</label>
+									<input type="text" required name="barcode" class="form-control" placeholder="Masukkan Kode Barang" id="barcode" onchange="autofill()">
 									<label class="pt-3">Nama Barang</label>
 									<input type="hidden" name="barang_id" id="barang_id">
 									<input type="text" name="nama" class="form-control" required="required" id="nama" readonly="readonly">

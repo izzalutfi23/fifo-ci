@@ -13,8 +13,8 @@
 						<form action="<?=base_url('pembelian/storeCart')?>" method="post">
 							<div class="row">
 								<div class="form-group col-md-6">                                  
-                                    <label class="pt-3">Barcode</label>
-									<input type="text" name="barcode" class="form-control" required placeholder="Masukkan Barcode" id="barcode" onchange="autofill2(<?= $this->uri->segment(3) ?>)">
+                                    <label class="pt-3">Kode Barang</label>
+									<input type="text" name="barcode" class="form-control" required placeholder="Masukkan Kode Barang" id="barcode" onchange="autofill2(<?= $this->uri->segment(3) ?>)">
 									<label class="pt-3">Nama Barang</label>
 									<input type="hidden" name="barang_id" id="barang_id">
 									<input type="text" name="nama" class="form-control" required="required" id="nama" readonly="readonly">

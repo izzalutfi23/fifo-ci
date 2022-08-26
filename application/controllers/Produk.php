@@ -105,13 +105,13 @@ class Produk extends CI_Controller {
 
     public function cari(){
         $barcode=$_GET['barcode'];
-        $cari =$this->db->get_where('barang', ['barcode' => $barcode])->result();
+        $cari =$this->db->get_where('barang', ['kode_barang' => $barcode])->result();
         echo json_encode($cari);
     } 
 
     public function cari2($id){
         $barcode=$_GET['barcode'];
-        $cari =$this->db->get_where('barang', ['suplier_id' => $id, 'barcode' => $barcode])->result();
+        $cari =$this->db->get_where('barang', ['suplier_id' => $id, 'kode_barang' => $barcode])->result();
         echo json_encode($cari);
     } 
 }
