@@ -36,6 +36,15 @@ class Pembelian extends CI_Controller {
 		$suplier = $this->Msuplier->getSuplier()->result();
         $produk = $this->Mproduk->getProduk()->result();
         $pembelian = $this->Mpembelian->getPembelian()->result();
+        foreach($pembelian as $beli){
+            $detail = $this->db->get_where('detail', ['pembelian_id' => $beli->id, 'status' => '1'])->result();
+            if(count($detail) > 0){
+                $beli->status = '1';
+            }
+            else{
+                $beli->status = '0';
+            }
+        }
         $data = [
             'title' => 'Pembelian | Fifo',
 			'suplier' => $suplier,

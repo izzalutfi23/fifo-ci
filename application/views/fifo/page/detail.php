@@ -3,6 +3,14 @@
 	<div class="content-wrapper">
 		<div class="page-header">
 			<h3 class="page-title">Detail Barang Keluar</h3>
+            <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+            <?php 
+                if($penjualan->jml > 0){
+            ?>
+            <a onclick="return confirm('Barang keluar akan dikonfirmasi')" href="<?= base_url('keluar/confirm/'.$this->uri->segment(3)) ?>" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-check"></i>Konfirmasi</a>
+            <?php } ?>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">

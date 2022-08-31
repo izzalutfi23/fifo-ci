@@ -73,8 +73,15 @@
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td><?=$data->nama?></td>
                                         <td align="center">
-										<a onclick="return confirm('Pembelian akan dikonfirmasi')" href="<?= base_url('pembelian/konfirmasi/'.$data->id) ?>" class="btn btn-success btn-sm">
-										<i class="mdi mdi-check"></i>Konfirmasi</a>
+										<?php
+											if($data->status == '1'){
+										?>
+										<button class="btn btn-success btn-sm">
+										<i class="mdi mdi-check"></i></button>
+										<?php }else{ ?>
+										<button class="btn btn-danger btn-sm">
+										Belum Konfirmasi</button>
+										<?php } ?>
 										<a href="<?=base_url('pembelian/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
 											</a>

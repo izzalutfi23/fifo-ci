@@ -70,7 +70,7 @@
 										<td><?=$data->retur?></td>
 										<td><?=$data->c2?></td>
 										<td>Rp <?=number_format($data->harga)?></td>
-										<td><?=$data->jumlah*$data->c2?></td>
+										<td><?=$data->jumlah?></td>
 										<td>Rp <?=number_format(($data->jumlah*$data->c2) * $data->harga)?></td>
 										<td align="center">
 											<a onclick="return confirm('Data akan dihapus!')"

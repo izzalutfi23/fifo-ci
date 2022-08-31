@@ -72,6 +72,8 @@ class Keluar extends CI_Controller {
     public function detail($id){
         $detail = $this->Mkeluar->getByPenjualan($id)->result();
         $penjualan = $this->db->get_where('penjualan', ['id' => $id])->row();
+        $dt = $this->db->get_where('detail_keluar', ['penjualan_id' => $id, 'status' => '0'])->result();
+        $penjualan->jml = count($dt);
         $data = [
             'title' => 'Detail Barang Keluar | Fifo',
             'detail' => $detail,

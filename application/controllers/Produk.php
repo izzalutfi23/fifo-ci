@@ -30,42 +30,48 @@ class Produk extends CI_Controller {
         $this->load->view('fifo/_footer');
     }
 
-    public function store(){        
-        $input = [
-            'kode_barang' => $this->input->post('kode_barang'),
-            'suplier_id' => $this->input->post('suplier_id'),
-            'barcode' => $this->input->post('barcode'),
-            'nama' => $this->input->post('nama'),
-            'c2' => $this->input->post('c2'),
-            'stok' => $this->input->post('stok'),
-            'umur' => $this->input->post('umur'),
-            'retur' => $this->input->post('retur'),
-            'harga' => $this->input->post('harga'),
-            'trx_id' => 0,
-            'qty' => $this->input->post('stok')
-        ];
-        $this->Mproduk->store($input);
-        $last_id = $this->db->insert_id();
-        $arr = [
-            'jumlah' => $this->input->post('stok'),
-            'harga' => $this->input->post('harga')
-        ];
-        $input = [
-            'barang_id' => $last_id,
-            'faktur' => 'Awal-001',
-            'tgl' => date('Y-m-d'),
-            'status' => '0',
-            'saldo' => json_encode($arr),
-            'type' => 'awal'
-        ];
-        $this->Mpembelian->store($input);
-        $id = $this->db->insert_id();
-        // Update produk
-        $data = [
-			'trx_id' => $id 
-		];
-		$this->Mproduk->update($data, $last_id);
-		redirect('produk');
+    public function store(){  
+        $brg = $this->db->get_where('barang', ['kode_barang' => $this->input->post('kode_barang')])->row();
+        if(count($brg) > 0){
+            redirect('produk');
+        }      
+        else{
+            $input = [
+                'kode_barang' => $this->input->post('kode_barang'),
+                'suplier_id' => $this->input->post('suplier_id'),
+                'barcode' => $this->input->post('barcode'),
+                'nama' => $this->input->post('nama'),
+                'c2' => $this->input->post('c2'),
+                'stok' => $this->input->post('stok'),
+                'umur' => $this->input->post('umur'),
+                'retur' => $this->input->post('retur'),
+                'harga' => $this->input->post('harga'),
+                'trx_id' => 0,
+                'qty' => $this->input->post('stok')
+            ];
+            $this->Mproduk->store($input);
+            $last_id = $this->db->insert_id();
+            $arr = [
+                'jumlah' => $this->input->post('stok'),
+                'harga' => $this->input->post('harga')
+            ];
+            $input = [
+                'barang_id' => $last_id,
+                'faktur' => 'Awal-001',
+                'tgl' => date('Y-m-d'),
+                'status' => '0',
+                'saldo' => json_encode($arr),
+                'type' => 'awal'
+            ];
+            $this->Mpembelian->store($input);
+            $id = $this->db->insert_id();
+            // Update produk
+            $data = [
+                'trx_id' => $id 
+            ];
+            $this->Mproduk->update($data, $last_id);
+            redirect('produk');
+        }
     }
 
     public function update(){

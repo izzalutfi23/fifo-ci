@@ -56,7 +56,7 @@
 				var hasil = JSON.parse(data);  
 						
 				$.each(hasil, function(key,val){      
-					document.getElementById('barcode').value=val.barcode;
+					// document.getElementById('barcode').value=val.barcode;
 					document.getElementById('barang_id').value=val.id;
 					document.getElementById('nama').value=val.nama;
 					document.getElementById('retur').value=val.retur;
@@ -75,7 +75,7 @@
 				var hasil = JSON.parse(data);  
 						
 				$.each(hasil, function(key,val){      
-					document.getElementById('barcode').value=val.barcode;
+					// document.getElementById('barcode').value=val.kode_barang;
 					document.getElementById('barang_id').value=val.id;
 					document.getElementById('nama').value=val.nama;
 					document.getElementById('retur').value=val.retur;

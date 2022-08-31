@@ -27,9 +27,15 @@ class Suplier extends CI_Controller {
     }
 
     public function store(){
-        $input = $this->input->post(null, true);
-		$this->Msuplier->store($input);
-		redirect('suplier');
+        $sup = $this->db->get_where('suplier', ['kode' => $this->input->post('kode')])->row();
+        if(count($sup) > 0){
+            redirect('suplier');
+        }
+        else{
+            $input = $this->input->post(null, true);
+            $this->Msuplier->store($input);
+            redirect('suplier');
+        }
     }
 
     public function update(){
