@@ -51,82 +51,69 @@
     </div>
     <div style="text-align: center;">
         <span style="font-size: 13px; text-transform: uppercase;">
-            <b>FORMULIR PESANAN PEMBELIAN</b><br>
+            <b>LAPORAN DATA PEMBELIAN</b><br>
         </span>
     </div>
     <br>
     <div style="padding: 0px 5px 0 5px;">
-        <table class="f12" width="100%">
-            <tr style="margin-bottom: 4px;">
-                <td>Nama Suplier</td>
-                <td>: </td>
-                <td><?=$suplier->nama?></td>
-                <td>No Faktur</td>
-                <td>:</td>
-                <td><?=$pembelian->faktur?></td>
-            </tr>
-            <tr style="margin-bottom: 4px;">
-                <td>Telepon</td>
-                <td>: </td>
-                <td><?=$suplier->hp?></td>
-                <td>Tgl PO</td>
-                <td>:</td>
-                <td><?=date('d M Y', strtotime($pembelian->tgl))?></td>
-            </tr>
-            <tr style="margin-bottom: 4px;">
-                <td>Email</td>
-                <td>: </td>
-                <td><?=$suplier->hp?></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
-        <br>
-
         <table border="1px" style="font-size: 10px;border: 1px solid black; width: 100%;border-collapse: collapse;text-align: center;" class="f12">
             <tr>
-                <th style="border: 1px solid #000; padding: 5px;">Kode Barang</th>
-                <th style="border: 1px solid #000; padding: 5px;">Barcode</th>
-                <th style="border: 1px solid #000; padding: 5px;">Nama</th>
-                <th style="border: 1px solid #000; padding: 5px;">C2</th>
-                <th style="border: 1px solid #000; padding: 5px;">Jumlah</th>
-                <th style="border: 1px solid #000; padding: 5px;">Harga</th>
-                <th style="border: 1px solid #000; padding: 5px;">Total</th>
+                <th style="border: 1px solid #000; padding: 5px;" rowspan="2">No</th>
+                <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Faktur</th>
+                <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Tgl</th>
+                <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Toko</th>
+                <th style="border: 1px solid #000; padding: 5px;" colspan="5">Detail</th>
             </tr>
-            <?php 
-                foreach($beli as $data){
-            ?>
             <tr>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->kode_barang?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->barcode?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->nama?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->c2?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$data->jumlah?></td>
-                <td style="border: 1px solid #000; padding: 5px;">Rp <?=number_format($data->harga)?></td>
-                <td style="border: 1px solid #000; padding: 5px;">Rp <?=number_format($data->harga*($data->c2*$data->jumlah))?></td>
+                <th style="border: 1px solid #000; padding: 5px;">Nama Barang</th>
+                <th style="border: 1px solid #000; padding: 5px;">Jumlah</th>
+                <th style="border: 1px solid #000; padding: 5px;">C2</th>
+                <th style="border: 1px solid #000; padding: 5px;">Harga Satuan</th>
+                <th style="border: 1px solid #000; padding: 5px;">SubTotal</th>
             </tr>
+            <?php
+                $no=1; 
+                $total = 0;
+                foreach($pembelian as $data){
+            ?>
+            <?php
+                $no1 = 0;
+                foreach($data->detail as $detail){
+                $no1++;
+                $total += $detail->harga*$detail->jumlah;
+            ?>
+                <tr>
+                    <?php 
+                        if($no1 == 1){
+                    ?>
+                    <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$no++?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$data->faktur?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=date('d M Y', strtotime($data->tgl))?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$data->nama?></td>
+                    <?php } ?>
+                    <td style="border: 1px solid #000; padding: 5px;"><?=$detail->nama?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->jumlah?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->c2?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga)?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga*$detail->jumlah)?></td>
+                </tr>
             <?php } ?>
+            <?php } ?>
+            <tr>
+                <th style="border: 1px solid #000; padding: 5px;" colspan="8">Total</th>
+                <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($total)?></th>
+            </tr>
         </table>
         <br>
         <br>
-        <table style="margin-top: 15px; width: 100%;border-collapse: collapse;" width="60%" class="f12">
+        <table style="margin-top: 15px; width: 100%;border-collapse: collapse;" class="f12">
             <tr>
-                <td>
+                <td style="width: 60%;">
                 </td>
-                <td style="text-align: center;">
+                <td style="width: 40%; text-align: center;">
                     <br>
                     <span>Semarang, <?=date('d M Y')?></span><br>
-                    <span>Pesanan Diterima</span>
-                    <br><br><br><br>
-                    <span><b>___________</b></span>
-                </td>
-                <td>
-                </td>
-                <td style="text-align: center;">
-                    <br>
-                    <span>Semarang, <?=date('d M Y')?></span><br>
-                    <span>Admin PO Semarang</span>
+                    <span>Kepala Gudang</span>
                     <br><br><br><br>
                     <span><b>___________</b></span>
                 </td>

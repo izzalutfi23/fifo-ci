@@ -55,4 +55,18 @@ class Suplier extends CI_Controller {
 		$this->Msuplier->delete($id);
 		redirect('suplier');
 	}
+
+    public function pdf(){
+        $suplier = $this->Msuplier->getSuplier()->result();
+        $datas = [
+            'suplier' => $suplier
+        ];
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-suplier.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/suplier',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
 }

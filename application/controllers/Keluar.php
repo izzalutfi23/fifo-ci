@@ -291,20 +291,27 @@ class Keluar extends CI_Controller {
 	}
 
     public function pdf(){
+        // $penjualan = $this->Mkeluar->getPenjualan()->result();
+        // foreach($penjualan as $data){
+        //     $detail = $this->Mkeluar->getByPenjualan($data->id)->result();
+        //     $jml = 0;
+        //     foreach($detail as $beli){
+        //         $beli->hpp = json_decode($beli->hpp);
+        //         $jml += 1;
+        //     }
+        //     $data->detail = $detail;
+        //     $data->jml = $jml;
+        // }
         $penjualan = $this->Mkeluar->getPenjualan()->result();
-        foreach($penjualan as $data){
-            $detail = $this->Mkeluar->getByPenjualan($data->id)->result();
-            $jml = 0;
-            foreach($detail as $beli){
-                $beli->hpp = json_decode($beli->hpp);
-                $jml += 1;
-            }
-            $data->detail = $detail;
-            $data->jml = $jml;
+        foreach($penjualan as $j){
+            $detail = $this->Mkeluar->getByPenjualan($j->id)->result();
+            $j->jml = count($detail);
+            $j->detail = $detail;
         }
         $datas = [
             'penjualan' => $penjualan
         ];
+        // print_r($penjualan);
         $this->load->library('pdf');
         $file_pdf = 'laporan-barang-keluar.pdf';
         $paper = 'A4';

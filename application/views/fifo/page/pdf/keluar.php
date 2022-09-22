@@ -61,6 +61,7 @@
                 <th style="border: 1px solid #000; padding: 5px;" rowspan="2">No</th>
                 <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Faktur</th>
                 <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Tgl</th>
+                <th style="border: 1px solid #000; padding: 5px;" rowspan="2">Toko</th>
                 <th style="border: 1px solid #000; padding: 5px;" colspan="5">Detail</th>
             </tr>
             <tr>
@@ -79,7 +80,7 @@
                 $no1 = 0;
                 foreach($data->detail as $detail){
                 $no1++;
-                $total += $detail->hpp->harga*$detail->hpp->jumlah;
+                $total += $detail->harga*$detail->jumlah;
             ?>
                 <tr>
                     <?php 
@@ -88,17 +89,18 @@
                     <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$no++?></td>
                     <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$data->faktur?></td>
                     <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=date('d M Y', strtotime($data->tgl))?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" rowspan="<?=$data->jml?>"><?=$data->nama?></td>
                     <?php } ?>
                     <td style="border: 1px solid #000; padding: 5px;"><?=$detail->barang?></td>
-                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->hpp->jumlah?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->jumlah?></td>
                     <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->c2?></td>
-                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->hpp->harga)?></td>
-                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->hpp->harga*$detail->hpp->jumlah)?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga)?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga*$detail->jumlah)?></td>
                 </tr>
             <?php } ?>
             <?php } ?>
             <tr>
-                <th style="border: 1px solid #000; padding: 5px;" colspan="7">Total</th>
+                <th style="border: 1px solid #000; padding: 5px;" colspan="8">Total</th>
                 <th style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($total)?></th>
             </tr>
         </table>

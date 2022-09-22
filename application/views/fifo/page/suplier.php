@@ -4,6 +4,8 @@
 		<div class="page-header">
 			<h3 class="page-title">Data Suplier</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+				<a href="<?=base_url('suplier/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
 					<i class="mdi mdi-plus-circle"></i>Data Suplier</button>

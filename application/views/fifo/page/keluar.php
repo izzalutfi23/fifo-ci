@@ -79,8 +79,8 @@
 											<button class="btn btn-danger btn-sm">
 											Belum Konfirmasi</button>
 											<?php }else{ ?>
-											<button class="btn btn-success btn-sm">
-											<i class="mdi mdi-check"></i></button>
+											<button onclick="return confirm('Barang keluar akan dikonfirmasi')" href="<?= base_url('keluar/confirm/'.$data->id) ?>" class="btn btn-success btn-sm">
+											<i class="mdi mdi-check"></i>Konfirmasi</a>
 											<?php } ?>
 											<a href="<?=base_url('keluar/detail/'.$data->id)?>">
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>

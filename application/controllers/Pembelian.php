@@ -212,21 +212,31 @@ class Pembelian extends CI_Controller {
 		redirect('suplier');
 	}
 
-    public function pdf($id){
-        $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
-        $suplier = $this->db->get_where('suplier', ['id' => $pembelian->suplier_id])->row();
-        $beli = $this->Mpembelian->getByPembelian($pembelian->id)->result();
+    public function pdf(){
+        $pembelian = $this->Mpembelian->getPembelian()->result();
+        foreach($pembelian as $beli){
+            $detail = $this->Mpembelian->getByPembelian($beli->id)->result();
+            if(count($detail) > 0){
+                $beli->status = '1';
+            }
+            else{
+                $beli->status = '0';
+            }
+            $beli->detail = $detail;
+            $beli->jml = count($detail);
+        }
+        // print_r($pembelian);
         $datas = [
-            'pembelian' => $pembelian,
-            'suplier' => $suplier,
-            'beli' => $beli
+            'pembelian' => $pembelian
         ];
+        // print_r($pembelian);
+
         $this->load->library('pdf');
-        $file_pdf = 'formulir-pembelian.pdf';
+        $file_pdf = 'laporan-barang-masuk.pdf';
         $paper = 'A4';
         $orientation = "portrait";
         
-		$html = $this->load->view('fifo/page/pdf/detail_beli',$datas, true);
+		$html = $this->load->view('fifo/page/pdf/detail_beli.php',$datas, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
 }
