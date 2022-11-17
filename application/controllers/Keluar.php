@@ -309,7 +309,9 @@ class Keluar extends CI_Controller {
             $j->detail = $detail;
         }
         $datas = [
-            'penjualan' => $penjualan
+            'penjualan' => $penjualan,
+            'from' => null,
+            'to' => null
         ];
         // print_r($penjualan);
         $this->load->library('pdf');
@@ -318,6 +320,25 @@ class Keluar extends CI_Controller {
         $orientation = "portrait";
         
 		$html = $this->load->view('fifo/page/pdf/keluar',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
+
+    public function pdfDetail($id){
+        $detail = $this->Mkeluar->getByPenjualan($id)->result();
+        $penjualan = $this->db->get_where('penjualan', ['id' => $id])->row();
+        $dt = $this->db->get_where('detail_keluar', ['penjualan_id' => $id, 'status' => '0'])->result();
+        $penjualan->jml = count($dt);
+        $data = [
+            'detail' => $detail,
+            'penjualan' => $penjualan
+        ];
+        
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang-keluar.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/detail_keluar',$data, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
 }

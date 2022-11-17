@@ -10,6 +10,7 @@ class Laporan extends CI_Controller {
         $this->load->model('Mkeluar');
         $this->load->model('Mlaporan');
         $this->load->model('Mproduk');
+        $this->load->model('Mpembelian');
 		if($this->session->userdata('user')){
             
         }
@@ -70,6 +71,64 @@ class Laporan extends CI_Controller {
         $orientation = "portrait";
         
 		$html = $this->load->view('fifo/page/pdf/fifo',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
+
+    public function in(){
+        $from = $this->input->post('from');
+        $to = $this->input->post('to');
+
+        $pembelian = $this->Mpembelian->getPembelianFilter($from, $to)->result();
+        foreach($pembelian as $beli){
+            $detail = $this->Mpembelian->getByPembelian($beli->id)->result();
+            if(count($detail) > 0){
+                $beli->status = '1';
+            }
+            else{
+                $beli->status = '0';
+            }
+            $beli->detail = $detail;
+            $beli->jml = count($detail);
+        }
+        // print_r($pembelian);
+        $datas = [
+            'pembelian' => $pembelian,
+            'from' => $from,
+            'to' => $to
+        ];
+        // print_r($pembelian);
+
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang-masuk.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/detail_beli.php',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
+
+    public function out(){
+        $from = $this->input->post('from');
+        $to = $this->input->post('to');
+
+        $penjualan = $this->Mkeluar->getPenjualanFilter($from, $to)->result();
+        foreach($penjualan as $j){
+            $detail = $this->Mkeluar->getByPenjualan($j->id)->result();
+            $j->jml = count($detail);
+            $j->detail = $detail;
+        }
+        $datas = [
+            'penjualan' => $penjualan,
+            'from' => $from,
+            'to' => $to
+        ];
+        // print_r($penjualan);
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-barang-keluar.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/keluar',$datas, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
 

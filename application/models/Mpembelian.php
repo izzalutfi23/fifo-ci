@@ -9,6 +9,14 @@ class Mpembelian extends CI_Model {
         return $this->db->get('pembelian as p');
     }
 
+    public function getPembelianFilter($from, $to){
+        $this->db->select('p.*, s.nama');
+        $this->db->join('suplier as s', 's.id=p.suplier_id');
+        $this->db->where('p.tgl >=', $from);
+        $this->db->where('p.tgl <=', $to);
+        return $this->db->get('pembelian as p');
+    }
+
     public function store($data){
         $this->db->insert('transaksi', $data);
     }

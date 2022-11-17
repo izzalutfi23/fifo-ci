@@ -71,6 +71,16 @@
 								</div>
 							</div>
 							<!-- Modal End -->
+							<?php 
+								if($this->session->flashdata('error')){
+							?>
+							<div class="alert alert-warning alert-dismissible fade show" role="alert">
+								<strong>Gagal!</strong> <?= $this->session->flashdata('error') ?>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<?php } ?>
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
 									<tr>

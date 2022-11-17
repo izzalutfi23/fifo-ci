@@ -227,7 +227,9 @@ class Pembelian extends CI_Controller {
         }
         // print_r($pembelian);
         $datas = [
-            'pembelian' => $pembelian
+            'pembelian' => $pembelian,
+            'from' => null,
+            'to' => null
         ];
         // print_r($pembelian);
 

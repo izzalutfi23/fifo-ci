@@ -4,6 +4,8 @@
 		<div class="page-header">
 			<h3 class="page-title">Detail Barang Keluar</h3>
             <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+            <a href="<?= base_url('keluar/pdfDetail/'.$this->uri->segment(3)) ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
             <?php 
                 if($penjualan->jml > 0){
             ?>

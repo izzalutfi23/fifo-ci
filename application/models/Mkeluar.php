@@ -51,6 +51,14 @@ class Mkeluar extends CI_Model {
         return $this->db->get('penjualan as p');
     }
 
+    public function getPenjualanFilter($from, $to){
+        $this->db->select('p.*, t.nama');
+        $this->db->join('toko as t', 't.id=p.toko_id');
+        $this->db->where('p.tgl >=', $from);
+        $this->db->where('p.tgl <=', $to);
+        return $this->db->get('penjualan as p');
+    }
+
     public function storeCart($data){
         $this->db->insert('keranjang', $data);
     }

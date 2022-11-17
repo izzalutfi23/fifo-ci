@@ -62,4 +62,19 @@ class Penyimpanan extends CI_Controller {
 		$this->Msimpan->delete($id);
 		redirect('penyimpanan');
 	}
+
+    public function pdf(){
+        $simpan = $this->Msimpan->getSimpan()->result();
+        $data = [
+            'simpan' => $simpan
+        ];
+
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-penyimpanan-barang.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/simpan',$data, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
 }

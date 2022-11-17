@@ -53,6 +53,13 @@
         <span style="font-size: 13px; text-transform: uppercase;">
             <b>LAPORAN DATA PEMBELIAN</b><br>
         </span>
+        <?php 
+            if($from != null){
+        ?>
+        <span style="font-size: 10px; text-transform: uppercase;">
+            <b><?=date('d M Y', strtotime($from))?> s/d <?=date('d M Y', strtotime($to))?></b><br>
+        </span>
+        <?php } ?>
     </div>
     <br>
     <div style="padding: 0px 5px 0 5px;">
