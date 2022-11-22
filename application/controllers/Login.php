@@ -24,6 +24,7 @@ class Login extends CI_Controller {
             redirect('home');
         }
         else{
+            $this->session->set_flashdata('error', 'Username atau password salah!');
             redirect('login');
         }
     }
