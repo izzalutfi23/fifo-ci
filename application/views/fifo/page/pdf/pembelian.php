@@ -88,7 +88,9 @@
             </tr>
             <?php
                 $no=1; 
+                $total = 0;
                 foreach($detail as $data){
+                $total += $data->harga*($data->jumlah*$data->c2);
             ?>
             <tr>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$no++?></td>
@@ -102,6 +104,10 @@
                 <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga*($data->jumlah*$data->c2))?></td>
             </tr>
             <?php } ?>
+            <tr>
+                <th colspan="8">Total</th>
+                <th><?=number_format($total)?></th>
+            </tr>
         </table>
         <br>
         <br>

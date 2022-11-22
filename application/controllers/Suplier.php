@@ -29,6 +29,7 @@ class Suplier extends CI_Controller {
     public function store(){
         $sup = $this->db->get_where('suplier', ['kode' => $this->input->post('kode')])->row();
         if(count($sup) > 0){
+            $this->session->set_flashdata('error', 'Kode suplier sudah digunakan');
             redirect('suplier');
         }
         else{

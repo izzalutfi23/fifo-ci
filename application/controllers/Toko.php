@@ -28,9 +28,16 @@ class Toko extends CI_Controller {
     }
 
     public function store(){
-        $input = $this->input->post(null, true);
-		$this->Mtoko->store($input);
-		redirect('toko');
+        $toko = $this->db->get_where('toko', ['kode' => $this->input->post('kode')])->row();
+        if(count($toko) > 0){
+            $this->session->set_flashdata('error', 'Kode toko sudah digunakan');
+            redirect('toko');
+        }
+        else{
+            $input = $this->input->post(null, true);
+            $this->Mtoko->store($input);
+            redirect('toko');
+        }
     }
 
     public function update(){
