@@ -6,9 +6,13 @@
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 			<a href="<?=base_url('pembelian/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
+			<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+			?>
 			<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 				data-target=".tambah">
 				<i class="mdi mdi-plus-circle"></i>Barang Masuk</button>
+			<?php } ?>
 			</div>
 		</div>
 		
@@ -61,7 +65,11 @@
 										<th>Faktur Pembelian</th>
                                         <th>Tanggal</th>
 										<th>Suplier</th>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+										?>
                                         <th>Action</th>
+										<?php } ?>
 									</tr>
 								</thead>
 								<tbody>
@@ -74,6 +82,9 @@
 										<td><?=$data->faktur?></td>
 										<td><?=date('d M Y', strtotime($data->tgl))?></td>
 										<td><?=$data->nama?></td>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+										?>
                                         <td align="center">
 										<?php
 											if($data->status == '1'){
@@ -88,6 +99,7 @@
 												<button class="btn btn-primary btn-sm"><i class="mdi mdi-eye"></i></button>
 											</a>
 										</td>
+										<?php } ?>
 									</tr>
 									<?php } ?>
 							</table>

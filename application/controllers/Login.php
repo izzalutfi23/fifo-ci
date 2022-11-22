@@ -20,7 +20,7 @@ class Login extends CI_Controller {
         $cek=$query->num_rows();
         $data = $query->row();
         if($cek>0){
-            $this->session->set_userdata(array('user'=>$user));
+            $this->session->set_userdata(array('user'=>$user, 'data' => $data));
             redirect('home');
         }
         else{

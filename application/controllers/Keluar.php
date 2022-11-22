@@ -89,19 +89,26 @@ class Keluar extends CI_Controller {
             'barang_id' => $this->input->post('barang_id'),
             'jumlah' => $this->input->post('jumlah')
         ];
-        $cek = count($this->Mkeluar->getByProduk($this->input->post('barang_id'))->result());
-        if($cek < 1){
-            $this->Mkeluar->storeCart($data);
+        $product = $this->db->get_where('barang', ['id' => $data['barang_id']])->row();
+        if($product->stok < $data['jumlah']){
+            $this->session->set_flashdata('error', 'Jumlah barang melebihi stok yang tersedia!');
+            redirect('keluar/create/'.$this->input->post('toko_id'));
         }
         else{
-            $id_barang = $this->input->post('barang_id');
-            $barang = $this->Mkeluar->getCartById($id_barang)->row();
-            $payload = [
-                'jumlah' => $barang->jumlah + $this->input->post('jumlah')
-            ];
-            $this->Mkeluar->updateCart($payload, $id_barang);
+            $cek = count($this->Mkeluar->getByProduk($this->input->post('barang_id'))->result());
+            if($cek < 1){
+                $this->Mkeluar->storeCart($data);
+            }
+            else{
+                $id_barang = $this->input->post('barang_id');
+                $barang = $this->Mkeluar->getCartById($id_barang)->row();
+                $payload = [
+                    'jumlah' => $barang->jumlah + $this->input->post('jumlah')
+                ];
+                $this->Mkeluar->updateCart($payload, $id_barang);
+            }
+            redirect('keluar/create/'.$this->input->post('toko_id'));
         }
-		redirect('keluar/create/'.$this->input->post('toko_id'));
     }
 
     public function delcart($id, $toko){
@@ -327,10 +334,12 @@ class Keluar extends CI_Controller {
         $detail = $this->Mkeluar->getByPenjualan($id)->result();
         $penjualan = $this->db->get_where('penjualan', ['id' => $id])->row();
         $dt = $this->db->get_where('detail_keluar', ['penjualan_id' => $id, 'status' => '0'])->result();
+        $toko = $this->db->get_where('toko', ['id' => $penjualan->toko_id])->row();
         $penjualan->jml = count($dt);
         $data = [
             'detail' => $detail,
-            'penjualan' => $penjualan
+            'penjualan' => $penjualan,
+            'toko' => $toko
         ];
         
         $this->load->library('pdf');

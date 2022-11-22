@@ -4,9 +4,13 @@
 		<div class="page-header">
 			<h3 class="page-title">Detail Barang Masuk</h3>
             <div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+            <?php 
+                if($condition != true){
+            ?>
             <a onclick="return confirm('Pembelian akan dikonfirmasi')" href="<?= base_url('pembelian/konfirmasi/'.$this->uri->segment('3')) ?>" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-check"></i>Konfirmasi</a>
-				<a href="<?= base_url('pembelian/pdf/'.$this->uri->segment(3)) ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
+            <?php } ?>
+				<a href="<?= base_url('pembelian/pdfDetail/'.$this->uri->segment(3)) ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
 			</div>
 		</div>

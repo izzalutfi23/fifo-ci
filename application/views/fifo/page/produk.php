@@ -6,10 +6,14 @@
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 				<a href="<?=base_url('produk/pdf')?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin'){
+				?>
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
 					<i class="mdi mdi-plus-circle"></i>Data Produk</button>
-			</div>
+				<?php } ?>
+				</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
@@ -94,7 +98,11 @@
 										<th>Umur</th>
 										<th>retur</th>
 										<th>harga</th>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin'){
+										?>
 										<th width="12%">Action</th>
+										<?php } ?>
 									</tr>
 								</thead>
 								<tbody>
@@ -113,6 +121,9 @@
 										<td><?=$data->umur?></td>
 										<td><?=$data->retur?></td>
 										<td>Rp <?=number_format($data->harga)?></td>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin'){
+										?>
 										<td>
 											<button class="btn btn-primary btn-sm" data-toggle="modal"
 												data-target=".edit<?=$data->id?>">Edit</button>
@@ -121,6 +132,7 @@
 												<button class="btn btn-danger btn-sm">Hapus</button>
 											</a>
 										</td>
+										<?php } ?>
 									</tr>
 									<!-- Modal -->
 									<div class="modal fade edit<?=$data->id?>" tabindex="-1" role="dialog"

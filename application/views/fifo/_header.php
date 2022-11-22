@@ -46,30 +46,49 @@
 				<li class="pt-2 pb-1">
 					<span class="nav-item-head">Menu</span>
 				</li>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('home')?>">
 						<i class="mdi mdi-compass-outline menu-icon"></i>
 						<span class="menu-title">Dashboard</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin' || $this->session->userdata('data')->role == 'operator'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('produk')?>">
 						<i class=" mdi mdi-barcode-scan menu-icon"></i>
 						<span class="menu-title">Produk</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('suplier')?>">
 						<i class=" mdi mdi-account-multiple menu-icon"></i>
 						<span class="menu-title">Suplier</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('toko')?>">
 						<i class="mdi mdi-database-plus menu-icon"></i>
 						<span class="menu-title">Toko</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin' || $this->session->userdata('data')->role == 'manager'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
 					<i class=" mdi mdi-swap-horizontal menu-icon"></i>
@@ -87,24 +106,37 @@
 					</ul>
 					</div>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'operator' || $this->session->userdata('data')->role == 'manager'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('penyimpanan')?>">
 						<i class="mdi mdi-database-plus menu-icon"></i>
 						<span class="menu-title">Penyimpanan</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'admin' || $this->session->userdata('data')->role == 'operator' || $this->session->userdata('data')->role == 'manager'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?= base_url('laporan') ?>">
 						<i class=" mdi mdi-book-open-variant menu-icon"></i>
 						<span class="menu-title">Laporan</span>
 					</a>
 				</li>
+				<?php } ?>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin'){
+				?>
 				<li class="nav-item">
 					<a class="nav-link" href="<?=base_url('user')?>">
 						<i class=" mdi mdi-account-settings menu-icon"></i>
 						<span class="menu-title">User</span>
 					</a>
 				</li>
+				<?php } ?>
 			</ul>
 		</nav>
 		<!-- partial -->

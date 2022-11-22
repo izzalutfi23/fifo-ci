@@ -6,9 +6,13 @@
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
 				<a href="<?= base_url('penyimpanan/pdf') ?>" target="_blank" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text mr-2">
 					<i class="mdi mdi-plus-circle"></i>Cetak PDF</a>
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin' || $this->session->userdata('data')->role == 'operator'){
+				?>
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
 					<i class="mdi mdi-plus-circle"></i>Penyimpanan</button>
+				<?php } ?>
 			</div>
 		</div>
 		<div class="row">

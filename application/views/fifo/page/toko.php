@@ -4,9 +4,13 @@
 		<div class="page-header">
 			<h3 class="page-title">Data Toko</h3>
 			<div class="header-right d-flex flex-wrap mt-2 mt-sm-0">
+				<?php 
+					if($this->session->userdata('data')->role == 'super-admin'){
+				?>
 				<button type="button" class="btn btn-primary mt-2 mt-sm-0 btn-icon-text" data-toggle="modal"
 					data-target=".tambah">
 					<i class="mdi mdi-plus-circle"></i>Data Toko</button>
+				<?php } ?>
 			</div>
 		</div>
 		<div class="row">
@@ -61,7 +65,11 @@
 										<th>Alamat</th>
 										<th>Email</th>
                                         <th>No Hp</th>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin'){
+										?>
 										<th width="12%">Action</th>
+										<?php } ?>
 									</tr>
 								</thead>
 								<tbody>
@@ -76,6 +84,9 @@
 										<td><?=$data->alamat?></td>
 										<td><?=$data->email?></td>
 										<td><?=$data->telepon?></td>
+										<?php 
+											if($this->session->userdata('data')->role == 'super-admin'){
+										?>
 										<td>
 											<button class="btn btn-primary btn-sm" data-toggle="modal"
 												data-target=".edit<?=$data->id?>">Edit</button>
@@ -84,6 +95,7 @@
 												<button class="btn btn-danger btn-sm">Hapus</button>
 											</a>
 										</td>
+										<?php } ?>
 									</tr>
 									<!-- Modal -->
 									<div class="modal fade edit<?=$data->id?>" tabindex="-1" role="dialog"

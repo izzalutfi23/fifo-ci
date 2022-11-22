@@ -56,10 +56,27 @@
     </div>
     <br>
     <div style="padding: 0px 5px 0 5px;">
+    <table style="font-size: 14px;">
+        <tr style="margin-bottom: 4px;">
+            <td style="white-space: pre;">Faktur</td>
+            <td>: </td>
+            <td><?=$penjualan->faktur?></td>
+        </tr>
+        <tr style="margin-bottom: 4px;">
+            <td style="white-space: pre;">Tgl Pemesanan</td>
+            <td>: </td>
+            <td><?=date('d M Y', strtotime($penjualan->tgl))?></td>
+        </tr>
+        <tr style="margin-bottom: 4px;">
+            <td style="vertical-align: top;">Toko</td>
+            <td style="vertical-align: top;">: </td>
+            <td style="vertical-align: top;"><?=$toko->nama?></td>
+        </tr>
+    </table>
+    <br>
     <table border="1px" style="font-size: 10px;border: 1px solid black; width: 100%;border-collapse: collapse;text-align: center;" class="f12">
             <tr>
                 <th style="border: 1px solid #000; padding: 5px;">No</th>
-                <th style="border: 1px solid #000; padding: 5px;">Faktur</th>
                 <th style="border: 1px solid #000; padding: 5px;">Nama Barang</th>
                 <th style="border: 1px solid #000; padding: 5px;">Tangal</th>
                 <th style="border: 1px solid #000; padding: 5px;">C2</th>
@@ -73,13 +90,12 @@
             ?>
             <tr>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$no++?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=$penjualan->faktur?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->barang?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=date('d M Y', strtotime($penjualan->tgl))?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->c2?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga)?></td>
                 <td style="border: 1px solid #000; padding: 5px;"><?=$data->jumlah*$data->c2?></td>
-                <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga*($data->jumlah*$data->c2))?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga * ($data->jumlah * $data->c2))?></td>
             </tr>
             <?php } ?>
         </table>

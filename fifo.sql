@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Sep 22, 2022 at 02:17 AM
+-- Generation Time: Nov 18, 2022 at 05:14 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -47,8 +47,9 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id`, `kode_barang`, `suplier_id`, `barcode`, `nama`, `c2`, `stok`, `umur`, `retur`, `harga`, `trx_id`, `qty`) VALUES
-(48, 'BRG-002', 1, '54321', 'Tempe', 2, 18, '2', '2', 7000, 205, 18),
-(47, 'BRG-001', 1, '12345', 'Telur', 2, 17, '2', '2', 5000, 204, 15);
+(53, 'BRG-003', 3, '5678', 'Sepeda', 2, 8, '4', '4', 20000, 212, 8),
+(51, 'BRG-001', 1, '12345', 'Sabun', 2, 22, '3', '3', 10000, 210, 14),
+(52, 'BRG-002', 1, '54321', 'Sampo', 2, 21, '4', '4', 15000, 211, 15);
 
 -- --------------------------------------------------------
 
@@ -84,10 +85,9 @@ CREATE TABLE `detail` (
 --
 
 INSERT INTO `detail` (`id`, `barang_id`, `pembelian_id`, `faktur`, `jumlah`, `harga`, `status`) VALUES
-(33, 47, 25, 'IN-00001', 2, 5000, '1'),
-(34, 47, 26, 'IN-00002', 5, 6000, '0'),
-(35, 47, 27, 'IN-00003', 3, 10000, '0'),
-(36, 48, 27, 'IN-00003', 5, 6000, '0');
+(37, 51, 28, 'IN-00001', 3, 15000, '1'),
+(38, 52, 28, 'IN-00001', 6, 17000, '1'),
+(39, 51, 29, 'IN-00002', 5, 20000, '1');
 
 -- --------------------------------------------------------
 
@@ -108,10 +108,9 @@ CREATE TABLE `detail_keluar` (
 --
 
 INSERT INTO `detail_keluar` (`id`, `penjualan_id`, `barang_id`, `jumlah`, `status`) VALUES
-(5, 122, 47, 3, '0'),
-(6, 123, 47, 5, '1'),
-(7, 124, 47, 2, '0'),
-(8, 124, 48, 4, '0');
+(9, 125, 51, 4, '1'),
+(10, 126, 51, 2, '1'),
+(11, 126, 52, 5, '1');
 
 -- --------------------------------------------------------
 
@@ -143,9 +142,8 @@ CREATE TABLE `pembelian` (
 --
 
 INSERT INTO `pembelian` (`id`, `suplier_id`, `faktur`, `tgl`) VALUES
-(25, 1, 'IN-00001', '2022-08-31'),
-(26, 1, 'IN-00002', '2022-08-31'),
-(27, 1, 'IN-00003', '2022-09-21');
+(28, 1, 'IN-00001', '2022-11-15'),
+(29, 1, 'IN-00002', '2022-11-17');
 
 -- --------------------------------------------------------
 
@@ -166,9 +164,8 @@ CREATE TABLE `penjualan` (
 --
 
 INSERT INTO `penjualan` (`id`, `toko_id`, `faktur`, `tgl`, `total`) VALUES
-(124, 1, 'OUT-00003', '2022-09-21', 76000),
-(123, 1, 'OUT-00002', '2022-08-31', 50000),
-(122, 1, 'OUT-00001', '2022-08-31', 30000);
+(126, 1, 'OUT-00002', '2022-11-17', 190000),
+(125, 1, 'OUT-00001', '2022-11-17', 80000);
 
 -- --------------------------------------------------------
 
@@ -257,11 +254,15 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id`, `barang_id`, `penjualan_id`, `faktur`, `tgl`, `status`, `pembelian`, `hpp`, `saldo`, `type`, `terpakai`, `status_simpan`) VALUES
-(204, 47, NULL, 'Awal-001', '2022-08-26', '0', NULL, NULL, '{\"jumlah\":\"20\",\"harga\":\"5000\"}', 'awal', '0', '0'),
-(205, 48, NULL, 'Awal-001', '2022-08-26', '0', NULL, NULL, '{\"jumlah\":\"18\",\"harga\":\"7000\"}', 'awal', '0', '0'),
-(206, 49, NULL, 'Awal-001', '2022-08-31', '0', NULL, NULL, '{\"jumlah\":\"3\",\"harga\":\"3\"}', 'awal', '0', '0'),
-(207, 47, NULL, 'IN-00001', '2022-08-31', '0', '{\"jumlah\":\"2\",\"harga\":\"5000\"}', NULL, '{\"jumlah\":\"2\",\"harga\":\"5000\"}', 'pembelian', '0', '0'),
-(208, 47, 123, 'OUT-00002', '2022-08-31', '0', NULL, '{\"jumlah\":\"5\",\"harga\":\"5000\"}', '{\"jumlah\":\"5\",\"harga\":\"5000\"}', 'penjualan', '0', '0');
+(218, 51, 125, 'OUT-00001', '2022-11-17', '0', NULL, '{\"jumlah\":\"4\",\"harga\":\"10000\"}', '{\"jumlah\":\"4\",\"harga\":\"10000\"}', 'penjualan', '0', '0'),
+(217, 52, 126, 'OUT-00002', '2022-11-17', '0', NULL, '{\"jumlah\":\"5\",\"harga\":\"15000\"}', '{\"jumlah\":\"5\",\"harga\":\"15000\"}', 'penjualan', '0', '0'),
+(216, 51, 126, 'OUT-00002', '2022-11-17', '0', NULL, '{\"jumlah\":\"2\",\"harga\":\"10000\"}', '{\"jumlah\":\"2\",\"harga\":\"10000\"}', 'penjualan', '0', '0'),
+(215, 51, NULL, 'IN-00002', '2022-11-17', '0', '{\"jumlah\":\"5\",\"harga\":\"20000\"}', NULL, '{\"jumlah\":\"5\",\"harga\":\"20000\"}', 'pembelian', '0', '0'),
+(210, 51, NULL, 'Awal-001', '2022-11-17', '0', NULL, NULL, '{\"jumlah\":\"20\",\"harga\":\"10000\"}', 'awal', '0', '0'),
+(211, 52, NULL, 'Awal-001', '2022-11-17', '0', NULL, NULL, '{\"jumlah\":\"20\",\"harga\":\"15000\"}', 'awal', '0', '0'),
+(212, 53, NULL, 'Awal-001', '2022-11-17', '0', NULL, NULL, '{\"jumlah\":\"8\",\"harga\":\"20000\"}', 'awal', '0', '0'),
+(213, 51, NULL, 'IN-00001', '2022-11-17', '0', '{\"jumlah\":\"3\",\"harga\":\"15000\"}', NULL, '{\"jumlah\":\"3\",\"harga\":\"15000\"}', 'pembelian', '0', '0'),
+(214, 52, NULL, 'IN-00001', '2022-11-17', '0', '{\"jumlah\":\"6\",\"harga\":\"17000\"}', NULL, '{\"jumlah\":\"6\",\"harga\":\"17000\"}', 'pembelian', '0', '0');
 
 -- --------------------------------------------------------
 
@@ -273,16 +274,19 @@ CREATE TABLE `user` (
   `id` int(10) NOT NULL,
   `nama` varchar(255) NOT NULL,
   `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(255) NOT NULL,
+  `role` enum('super-admin','admin','operator','manager') NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `nama`, `username`, `password`) VALUES
-(1, 'Panitia A', 'panitia', '21232f297a57a5a743894a0e4a801fc3'),
-(2, 'Kepala Desa', 'admin', '21232f297a57a5a743894a0e4a801fc3');
+INSERT INTO `user` (`id`, `nama`, `username`, `password`, `role`) VALUES
+(7, 'Operator', 'operator', '5ebe2294ecd0e0f08eab7690d2a6ee69', 'operator'),
+(3, 'Super Admin', 'super', '5ebe2294ecd0e0f08eab7690d2a6ee69', 'super-admin'),
+(6, 'Admin', 'admin', '5ebe2294ecd0e0f08eab7690d2a6ee69', 'admin'),
+(8, 'Manager', 'manager', '5ebe2294ecd0e0f08eab7690d2a6ee69', 'manager');
 
 --
 -- Indexes for dumped tables
@@ -368,7 +372,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `cart`
@@ -380,13 +384,13 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `detail`
 --
 ALTER TABLE `detail`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `detail_keluar`
 --
 ALTER TABLE `detail_keluar`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `keranjang`
@@ -398,19 +402,19 @@ ALTER TABLE `keranjang`
 -- AUTO_INCREMENT for table `pembelian`
 --
 ALTER TABLE `pembelian`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `penjualan`
 --
 ALTER TABLE `penjualan`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=125;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=127;
 
 --
 -- AUTO_INCREMENT for table `penyimpanan`
 --
 ALTER TABLE `penyimpanan`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `suplier`
@@ -428,13 +432,13 @@ ALTER TABLE `toko`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

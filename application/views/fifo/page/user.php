@@ -37,6 +37,13 @@
 														<input required="required" type="text" name="username" class="form-control" placeholder="Masukkan username">
 														<label class="pt-3">Password</label>
 														<input required="required" type="text" name="password" class="form-control" placeholder="Masukkan password">
+														<label class="pt-3">Role</label>
+														<select name="role" class="form-control">
+															<option value="super-admin">Super Admin</option>
+															<option value="admin">Admin</option>
+															<option value="operator">Operator</option>
+															<option value="manager">Manager</option>
+														</select>
 													</div>
 												</div>
 										</div>
@@ -54,6 +61,7 @@
 										<th>No</th>
 										<th>Nama</th>
 										<th>username</th>
+										<th>Role</th>
 										<th width="12%">Action</th>
 									</tr>
 								</thead>
@@ -66,6 +74,7 @@
 										<td><?=$no++?></td>
 										<td><?=$data->nama?></td>
 										<td><?=$data->username?></td>
+										<td><?=$data->role?></td>
 										<td>
 											<button class="btn btn-primary btn-sm" data-toggle="modal"
 												data-target=".edit<?=$data->id?>">Edit</button>

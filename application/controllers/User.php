@@ -30,6 +30,7 @@ class User extends CI_Controller {
             'nama' => $this->input->post('nama'),
             'username' => $this->input->post('username'),
             'password' => md5($this->input->post('password')),
+            'role' => $this->input->post('role'),
         ];
 		$this->Muser->store($data);
 		redirect('user');
@@ -43,6 +44,7 @@ class User extends CI_Controller {
                 'nama' => $this->input->post('nama'),
                 'username' => $this->input->post('username'),
                 'password' => md5($this->input->post('password')),
+                'role' => $this->input->post('role'),
             ];
         }
         else{

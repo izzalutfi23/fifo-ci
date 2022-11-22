@@ -7,6 +7,16 @@
 		<div class="row">
 			<div class="col-lg-12 grid-margin stretch-card">
 				<div class="card">
+				<?php 
+					if($this->session->flashdata('error')){
+				?>
+				<div class="alert alert-warning alert-dismissible fade show" style="margin-bottom: 5px;" role="alert">
+					<strong>Gagal!</strong> <?= $this->session->flashdata('error') ?>
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<?php } ?>
                 	<div class="card-body">
 						<h4 class="card-title">Form Tambah Keranjang</h4>
 						<p class="card-description">Silahkan isi sesuai petunjuk</p>

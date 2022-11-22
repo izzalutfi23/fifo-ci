@@ -87,7 +87,7 @@
                 $no1 = 0;
                 foreach($data->detail as $detail){
                 $no1++;
-                $total += $detail->harga*$detail->jumlah;
+                $total += $detail->harga*($detail->jumlah);
             ?>
                 <tr>
                     <?php 
@@ -102,7 +102,7 @@
                     <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->jumlah?></td>
                     <td style="border: 1px solid #000; padding: 5px;" align="right"><?=$detail->c2?></td>
                     <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga)?></td>
-                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga*$detail->jumlah)?></td>
+                    <td style="border: 1px solid #000; padding: 5px;" align="right"><?=number_format($detail->harga*($detail->jumlah * $detail->c2))?></td>
                 </tr>
             <?php } ?>
             <?php } ?>

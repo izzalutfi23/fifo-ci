@@ -56,32 +56,50 @@
     </div>
     <br>
     <div style="padding: 0px 5px 0 5px;">
+        <table style="font-size: 14px;">
+            <tr style="margin-bottom: 4px;">
+                <td style="white-space: pre;">Faktur</td>
+                <td>: </td>
+                <td><?=$pembelian->faktur?></td>
+            </tr>
+            <tr style="margin-bottom: 4px;">
+                <td style="white-space: pre;">Tgl Pemesanan</td>
+                <td>: </td>
+                <td><?=date('d M Y', strtotime($pembelian->tgl))?></td>
+            </tr>
+            <tr style="margin-bottom: 4px;">
+                <td style="vertical-align: top;">Suplier</td>
+                <td style="vertical-align: top;">: </td>
+                <td style="vertical-align: top;"><?=$suplier->nama?></td>
+            </tr>
+        </table>
+        <br>
         <table border="1px" style="font-size: 10px;border: 1px solid black; width: 100%;border-collapse: collapse;text-align: center;" class="f12">
             <tr>
-                <th>No</th>
-                <th>Faktur Pembelian</th>
-                <th>Nama Barang</th>
-                <th>Suplier</th>
-                <th>Tanggal</th>
-                <th>Jumlah</th>
-                <th>C2</th>
-                <th>Harga Satuan</th>
-                <th>Total</th>
+                <th style="border: 1px solid #000; padding: 5px;">No</th>
+                <th style="border: 1px solid #000; padding: 5px;">Tgl Pemesanan</th>
+                <th style="border: 1px solid #000; padding: 5px;">Kode Barang</th>
+                <th style="border: 1px solid #000; padding: 5px;">Retur</th>
+                <th style="border: 1px solid #000; padding: 5px;">Nama Barang</th>
+                <th style="border: 1px solid #000; padding: 5px;">Jumlah</th>
+                <th style="border: 1px solid #000; padding: 5px;">C2</th>
+                <th style="border: 1px solid #000; padding: 5px;">Harga Satuan</th>
+                <th style="border: 1px solid #000; padding: 5px;">Total</th>
             </tr>
             <?php
                 $no=1; 
-                foreach($pembelian as $data){
+                foreach($detail as $data){
             ?>
             <tr>
-                <td><?=$no++?></td>
-                <td><?=$data->faktur?></td>
-                <td><?=$data->barang?></td>
-                <td><?=$data->suplier?></td>
-                <td><?=date('d M Y', strtotime($data->tgl))?></td>
-                <td><?=$data->c2?></td>
-                <td><?=$data->pembelian->jumlah?></td>
-                <td><?=number_format($data->pembelian->harga)?></td>
-                <td><?=number_format($data->pembelian->harga*$data->pembelian->jumlah)?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$no++?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=date('d M Y', strtotime($pembelian->tgl))?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$data->kode_barang?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$data->retur?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$data->nama?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$data->jumlah?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=$data->c2?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga)?></td>
+                <td style="border: 1px solid #000; padding: 5px;"><?=number_format($data->harga*($data->jumlah*$data->c2))?></td>
             </tr>
             <?php } ?>
         </table>

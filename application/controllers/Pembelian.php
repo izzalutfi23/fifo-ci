@@ -147,11 +147,23 @@ class Pembelian extends CI_Controller {
         $detail = $this->Mpembelian->getByPembelian($id)->result();
         $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
         $suplier = $this->db->get_where('suplier', ['id' => $pembelian->suplier_id])->row();
+        $total = count($detail);
+        $count = 0;
+        foreach($detail as $d){
+            if($d->status == '1'){
+                $count++;
+            }
+        }
+        $condition = false;
+        if($total == $count){
+            $condition = true;
+        }
         $data = [
             'title' => 'Detail Barang Keluar | Fifo',
             'detail' => $detail,
             'pembelian' => $pembelian,
-            'suplier' => $suplier
+            'suplier' => $suplier,
+            'condition' => $condition
         ];
         $this->load->view('fifo/_header', $data);
         $this->load->view('fifo/page/detail_masuk');
@@ -239,6 +251,26 @@ class Pembelian extends CI_Controller {
         $orientation = "portrait";
         
 		$html = $this->load->view('fifo/page/pdf/detail_beli.php',$datas, true);
+        $this->pdf->generate($html, $file_pdf,$paper,$orientation);
+    }
+
+    public function pdfDetail($id){
+        $detail = $this->Mpembelian->getByPembelian($id)->result();
+        $pembelian = $this->db->get_where('pembelian', ['id' => $id])->row();
+        $suplier = $this->db->get_where('suplier', ['id' => $pembelian->suplier_id])->row();
+        $datas = [
+            'detail' => $detail,
+            'suplier' => $suplier,
+            'pembelian' => $pembelian
+        ];
+        // print_r($pembelian);
+
+        $this->load->library('pdf');
+        $file_pdf = 'laporan-detail-barang-masuk.pdf';
+        $paper = 'A4';
+        $orientation = "portrait";
+        
+		$html = $this->load->view('fifo/page/pdf/pembelian.php',$datas, true);
         $this->pdf->generate($html, $file_pdf,$paper,$orientation);
     }
 }
